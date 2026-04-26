@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Menu, X, Sun, Moon } from 'lucide-react';
-import { Github, Linkedin, Instagram, Youtube } from './SocialIcons';
+import { Github, Linkedin, Instagram } from './SocialIcons';
 import { useTheme } from '../hooks/useTheme';
-
-const AVATAR_URL = 'https://api.dicebear.com/9.x/avataaars/svg?seed=MarniJayaram';
+import { useScrollSpy } from '../hooks/useScrollSpy';
+import { profile } from '../data/profile';
 
 const navLinks = [
   { name: 'Home', href: '#home' },
@@ -16,11 +16,12 @@ const navLinks = [
   { name: 'Contact', href: '#contact' },
 ];
 
+const sectionIds = navLinks.map((l) => l.href.slice(1));
+
 const socialLinks = [
-  { name: 'GitHub', href: 'https://github.com/', Icon: Github },
-  { name: 'LinkedIn', href: 'https://linkedin.com/', Icon: Linkedin },
-  { name: 'YouTube', href: 'https://youtube.com/', Icon: Youtube },
-  { name: 'Instagram', href: 'https://instagram.com/', Icon: Instagram },
+  { name: 'GitHub', href: profile.social.github, Icon: Github },
+  { name: 'LinkedIn', href: profile.social.linkedin, Icon: Linkedin },
+  { name: 'Instagram', href: profile.social.instagram, Icon: Instagram },
 ];
 
 function Navbar() {
@@ -29,6 +30,7 @@ function Navbar() {
   const [isHidden, setIsHidden] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const { isDark, toggle } = useTheme();
+  const activeId = useScrollSpy(sectionIds);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,14 +84,14 @@ function Navbar() {
                   className="absolute inset-0 rounded-full"
                 />
                 <img
-                  src={AVATAR_URL}
-                  alt="Marni Jayaram"
+                  src={profile.avatar}
+                  alt={profile.name}
                   className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 rounded-full border-2 border-accent bg-navy-light group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <div className="hidden sm:flex flex-col leading-tight min-w-0">
                 <span className="text-sm md:text-base font-display font-bold text-slate-lightest group-hover:text-accent transition-colors duration-300 truncate">
-                  Marni Jayaram
+                  {profile.name}
                 </span>
                 <span className="text-[0.65rem] md:text-xs font-mono text-accent">
                   &lt;developer /&gt;
@@ -99,18 +101,21 @@ function Navbar() {
 
             {/* CENTER: Desktop Nav Links (lg+) */}
             <div className="hidden lg:flex items-center gap-7 xl:gap-9">
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  initial={{ y: -15, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.4, delay: 0.2 + i * 0.06 }}
-                  className="nav-link"
-                >
-                  {link.name}
-                </motion.a>
-              ))}
+              {navLinks.map((link, i) => {
+                const id = link.href.slice(1);
+                return (
+                  <motion.a
+                    key={link.name}
+                    href={link.href}
+                    initial={{ y: -15, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.2 + i * 0.06 }}
+                    className={`nav-link ${activeId === id ? 'is-active' : ''}`}
+                  >
+                    {link.name}
+                  </motion.a>
+                );
+              })}
             </div>
 
             {/* RIGHT: one cluster, conditionally shows items by breakpoint */}
@@ -190,19 +195,25 @@ function Navbar() {
               className="fixed top-0 right-0 bottom-0 w-4/5 max-w-sm bg-navy-light z-40 shadow-2xl lg:hidden overflow-y-auto"
             >
               <div className="flex flex-col h-full pt-24 px-6 sm:px-8 pb-8">
-                {navLinks.map((link, i) => (
-                  <motion.a
-                    key={link.name}
-                    href={link.href}
-                    onClick={closeMenu}
-                    initial={{ x: 40, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.12 + i * 0.06, duration: 0.3 }}
-                    className="py-4 border-b border-slate-dark/40 text-lg font-display font-semibold text-slate-lightest hover:text-accent transition-colors"
-                  >
-                    {link.name}
-                  </motion.a>
-                ))}
+                {navLinks.map((link, i) => {
+                  const id = link.href.slice(1);
+                  const active = activeId === id;
+                  return (
+                    <motion.a
+                      key={link.name}
+                      href={link.href}
+                      onClick={closeMenu}
+                      initial={{ x: 40, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ delay: 0.12 + i * 0.06, duration: 0.3 }}
+                      className={`py-4 border-b border-slate-dark/40 text-lg font-display font-semibold transition-colors ${
+                        active ? 'text-accent' : 'text-slate-lightest hover:text-accent'
+                      }`}
+                    >
+                      {link.name}
+                    </motion.a>
+                  );
+                })}
 
                 <div className="flex items-center gap-2 mt-8">
                   {socialLinks.map(({ name, href, Icon }) => (

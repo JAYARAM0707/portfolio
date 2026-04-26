@@ -1,22 +1,28 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeft } from 'lucide-react';
 
 function NotFound() {
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-      <div className="text-center max-w-2xl">
-        <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold text-slate-900 mb-4">
-          404
+    <div className="min-h-screen bg-navy text-slate-lightest flex items-center justify-center section-padding">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-center max-w-xl"
+      >
+        <p className="eyebrow mb-4">Error 404</p>
+        <h1 className="font-display font-extrabold text-7xl sm:text-8xl md:text-9xl text-slate-lightest mb-4 leading-none">
+          4<span className="text-accent">0</span>4
         </h1>
-        <p className="text-lg sm:text-xl text-slate-600 mb-6">
-          Oops! The page you're looking for doesn't exist.
+        <p className="text-lg sm:text-xl text-slate-light mb-8">
+          This page took a wrong turn. Let's get you back home.
         </p>
-        <Link
-          to="/"
-          className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-        >
-          Go Home
+        <Link to="/" className="btn-primary">
+          <ArrowLeft size={16} />
+          Back to Home
         </Link>
-      </div>
+      </motion.div>
     </div>
   );
 }

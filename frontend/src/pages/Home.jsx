@@ -118,8 +118,8 @@ function Home() {
               <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-10 mt-10 sm:mt-14 max-w-xl mx-auto lg:mx-0">
                 {[
                   { value: 1, suffix: '+', label: 'Years Experience' },
-                  { value: 10, suffix: '+', label: 'Projects Shipped' },
-                  { value: 5, suffix: '+', label: 'Technologies' },
+                  { value: 3, suffix: '+', label: 'Projects Shipped' },
+                  { value: 10, suffix: '+', label: 'Technologies' },
                 ].map((stat) => (
                   <div key={stat.label}>
                     <div className="text-2xl sm:text-3xl md:text-4xl font-display font-extrabold text-accent">

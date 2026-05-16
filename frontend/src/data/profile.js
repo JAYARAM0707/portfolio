@@ -5,7 +5,7 @@ export const profile = {
   initials: 'MJ',
   role: 'Software Engineer',
   email: 'marnijayaram0707@gmail.com',
-  location: 'Hyderabad, India',
+  location: 'Bangalore, India',
   // Clean initials avatar. To swap in a real photo:
   //   1. Drop a square headshot at frontend/public/profile.jpg
   //   2. Set this to '/profile.jpg'

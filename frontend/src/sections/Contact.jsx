@@ -9,33 +9,34 @@ import {
   Loader2,
 } from 'lucide-react';
 import { Github, Linkedin } from '../components/SocialIcons';
+import { profile } from '../data/profile';
 
 const contactMethods = [
   {
     Icon: Mail,
     label: 'Email',
-    value: 'marnijayaram0707@gmail.com',
-    href: 'mailto:marnijayaram0707@gmail.com',
+    value: profile.email,
+    href: `mailto:${profile.email}`,
     external: false,
   },
   {
     Icon: Linkedin,
     label: 'LinkedIn',
-    value: 'linkedin.com/in/marnijayaram',
-    href: 'https://linkedin.com/in/marnijayaram',
+    value: profile.social.linkedin.replace(/^https?:\/\//, ''),
+    href: profile.social.linkedin,
     external: true,
   },
   {
     Icon: Github,
     label: 'GitHub',
-    value: 'github.com/JAYARAM0707',
-    href: 'https://github.com/JAYARAM0707',
+    value: profile.social.github.replace(/^https?:\/\//, ''),
+    href: profile.social.github,
     external: true,
   },
   {
     Icon: MapPin,
     label: 'Location',
-    value: 'Hyderabad, India',
+    value: profile.location,
     href: null,
   },
 ];

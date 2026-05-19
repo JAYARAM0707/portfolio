@@ -11,7 +11,7 @@ export const profile = {
   //   2. Set this to '/profile.jpg'
   avatar:
     'https://ui-avatars.com/api/?name=Marni+Jayaram' +
-    '&background=dc2626&color=ffffff' +
+    '&background=06b6d4&color=ffffff' +
     '&size=256&font-size=0.42&bold=true&rounded=true',
   social: {
     github: 'https://github.com/JAYARAM0707',

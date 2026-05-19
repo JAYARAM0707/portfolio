@@ -109,7 +109,7 @@ function About() {
               whileHover={{ y: -4 }}
               className="group bg-navy-light border border-slate-dark/30 rounded-xl
                          p-5 sm:p-6 hover:border-accent transition-all duration-300
-                         hover:shadow-[0_0_25px_rgba(239,68,68,0.15)]"
+                         hover:shadow-[0_0_25px_rgba(103,232,249,0.15)]"
             >
               <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mb-4
                               group-hover:bg-accent/20 transition-colors duration-300">

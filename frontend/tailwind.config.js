@@ -80,8 +80,8 @@ export default {
           '50%': { transform: 'translateY(-10px)' },
         },
         glow: {
-          '0%': { boxShadow: '0 0 10px rgba(239, 68, 68, 0.3)' },
-          '100%': { boxShadow: '0 0 20px rgba(239, 68, 68, 0.6)' },
+          '0%': { boxShadow: '0 0 10px rgba(103, 232, 249, 0.3)' },
+          '100%': { boxShadow: '0 0 20px rgba(103, 232, 249, 0.6)' },
         },
         blink: {
           '0%, 100%': { opacity: '1' },
@@ -101,7 +101,7 @@ export default {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'hero-gradient': 'linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%)',
-        'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.25), transparent)',
+        'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.25), transparent)',
       },
     },
   },

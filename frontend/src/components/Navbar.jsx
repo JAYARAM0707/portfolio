@@ -76,8 +76,8 @@ function Navbar() {
                 <motion.div
                   animate={{
                     boxShadow: [
-                      '0 0 0 0 rgba(239, 68, 68, 0.45)',
-                      '0 0 0 10px rgba(239, 68, 68, 0)',
+                      '0 0 0 0 rgba(103, 232, 249, 0.45)',
+                      '0 0 0 10px rgba(103, 232, 249, 0)',
                     ],
                   }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}

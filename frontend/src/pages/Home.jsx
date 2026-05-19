@@ -199,7 +199,7 @@ function Home() {
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                   className="absolute inset-6 sm:inset-8 rounded-full overflow-hidden
                              border-2 border-accent bg-navy-light
-                             shadow-[0_0_50px_rgba(239,68,68,0.5)]"
+                             shadow-[0_0_50px_rgba(103,232,249,0.5)]"
                 >
                   <img
                     src={profile.avatar}

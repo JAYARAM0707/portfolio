@@ -36,7 +36,7 @@ function Experience() {
         transition={{ duration: 0.7 }}
         className="relative max-w-4xl mx-auto bg-navy-light border border-slate-dark/30 rounded-xl
                    overflow-hidden hover:border-accent transition-all duration-500
-                   hover:shadow-[0_0_30px_rgba(239,68,68,0.15)]"
+                   hover:shadow-[0_0_30px_rgba(103,232,249,0.15)]"
       >
         {/* Red gradient top bar */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-accent/60 to-transparent" />

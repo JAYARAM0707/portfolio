@@ -15,8 +15,8 @@
     --text-secondary: 51 65 85;       /* body (slate-700) */
     --text-muted: 100 116 139;        /* secondary (slate-500) */
     --border: 148 163 184;            /* slate-400 — visible at /30 */
-    --accent: 6 182 212;              /* cyan-500 — bright aqua on white */
-    --accent-hover: 8 145 178;        /* cyan-600 */
+    --accent: 2 132 199;              /* sky-600 — professional blue on white */
+    --accent-hover: 3 105 161;        /* sky-700 */
   }
 
   .dark {
@@ -27,10 +27,38 @@
     --text-secondary: 212 212 216;
     --text-muted: 163 163 163;
     --border: 64 64 64;
-    --accent: 103 232 249;            /* cyan-300 — pastel aqua, pops on dark bg */
-    --accent-hover: 34 211 238;       /* cyan-400 */
+    --accent: 56 189 248;             /* sky-400 — bright blue, pops on dark bg */
+    --accent-hover: 14 165 233;       /* sky-500 */
 
     color-scheme: dark;
+  }
+
+  /* Scoped theme inversion — flips CSS vars so a child shows the OPPOSITE
+     palette of the page. Used inside the phone mockup so the phone screen
+     always looks like the inverse of the site theme. */
+  html:not(.dark) .theme-inverted {
+    --bg-primary: 10 10 10;
+    --bg-secondary: 20 10 10;
+    --bg-tertiary: 38 10 10;
+    --text-primary: 245 245 245;
+    --text-secondary: 212 212 216;
+    --text-muted: 163 163 163;
+    --border: 64 64 64;
+    --accent: 56 189 248;
+    --accent-hover: 14 165 233;
+    color-scheme: dark;
+  }
+  html.dark .theme-inverted {
+    --bg-primary: 248 250 252;
+    --bg-secondary: 241 245 249;
+    --bg-tertiary: 226 232 240;
+    --text-primary: 15 23 42;
+    --text-secondary: 51 65 85;
+    --text-muted: 100 116 139;
+    --border: 148 163 184;
+    --accent: 2 132 199;
+    --accent-hover: 3 105 161;
+    color-scheme: light;
   }
 
   /* Lenis handles smooth scrolling — native CSS smooth-scroll would fight it */

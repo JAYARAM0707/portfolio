@@ -1,26 +1,46 @@
 import { motion } from 'framer-motion';
-import { Smartphone, Sparkles, Code2, Wrench } from 'lucide-react';
+import { Smartphone, Code2, Wrench, Database, Palette, Globe } from 'lucide-react';
+import MagicBento from '../components/MagicBento';
+import SectionBackground from '../components/SectionBackground';
+import { CodeWindow } from '../components/SectionMockup';
 
-const categories = [
+// Skills shaped for MagicBento — 6 cards form the asymmetric bento grid.
+const SKILL_CARDS = [
   {
-    icon: Smartphone,
+    Icon: Smartphone,
+    label: 'Mobile',
     title: 'Mobile Development',
-    skills: ['React Native', 'Redux Toolkit', 'iOS Development', 'Android Development', 'React Navigation', 'TypeScript'],
+    description: 'React Native · iOS · Android · React Navigation · Figma-to-Code',
   },
   {
-    icon: Sparkles,
-    title: 'AI & Backend',
-    skills: ['GPT-4 API', 'OpenAI Integration', 'Python', 'FastAPI', 'REST APIs', 'AI-IVR Systems'],
-  },
-  {
-    icon: Code2,
+    Icon: Globe,
+    label: 'Frontend',
     title: 'Frontend & Web',
-    skills: ['React.js', 'JavaScript', 'HTML / CSS', 'Tailwind CSS', 'Vite'],
+    description: 'React.js · HTML5 · CSS3 · Tailwind CSS · Responsive UI',
   },
   {
-    icon: Wrench,
+    Icon: Code2,
+    label: 'Languages',
+    title: 'Languages',
+    description: 'JavaScript (ES6+) · Python · SQL · HTML · CSS',
+  },
+  {
+    Icon: Database,
+    label: 'State & APIs',
+    title: 'State & APIs',
+    description: 'Redux Toolkit · Axios · REST API Integration · Firebase',
+  },
+  {
+    Icon: Palette,
+    label: 'Real-time',
+    title: 'Real-time Systems',
+    description: 'VoIP Calling · Push Notifications · Audio · File Uploads',
+  },
+  {
+    Icon: Wrench,
+    label: 'Tools',
     title: 'Tools & Workflow',
-    skills: ['Git & GitHub', 'Figma to Code', 'VS Code', 'Postman', 'Agile / Scrum', 'npm'],
+    description: 'Git · GitHub · Flipper · React Native Debugger · Agile',
   },
 ];
 
@@ -28,8 +48,11 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="section-padding container-max py-24 md:py-32"
+      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
     >
+      <SectionBackground orbOpacity={0.22} />
+      <CodeWindow style={{ top: '10%', right: '8%' }} className="hidden md:block" />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -43,49 +66,17 @@ function Skills() {
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-        {categories.map((cat, i) => (
-          <motion.div
-            key={cat.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            whileHover={{ y: -4 }}
-            className="group bg-navy-light border border-slate-dark/30 rounded-xl p-6
-                       hover:border-accent transition-all duration-300
-                       hover:shadow-[0_0_25px_rgba(103,232,249,0.15)]"
-          >
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 rounded-lg bg-accent/10 flex items-center justify-center
-                              group-hover:bg-accent/20 transition-colors duration-300">
-                <cat.icon size={22} className="text-accent" />
-              </div>
-              <h3 className="text-lg md:text-xl font-display font-bold text-slate-lightest">
-                {cat.title}
-              </h3>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {cat.skills.map((skill, j) => (
-                <motion.span
-                  key={skill}
-                  initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: i * 0.1 + j * 0.04 }}
-                  className="px-3 py-1 rounded-full text-xs font-mono
-                             bg-navy border border-slate-dark/40
-                             text-slate-light hover:text-accent hover:border-accent
-                             transition-colors duration-300"
-                >
-                  {skill}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      <MagicBento
+        cards={SKILL_CARDS}
+        enableStars
+        enableSpotlight
+        enableBorderGlow
+        enableTilt
+        enableMagnetism
+        clickEffect
+        glowColor="56, 189, 248"
+        particleCount={10}
+      />
     </section>
   );
 }

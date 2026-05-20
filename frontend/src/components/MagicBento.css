@@ -1,0 +1,161 @@
+.magic-bento-grid {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  width: 100%;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+  user-select: none;
+  position: relative;
+}
+
+@media (max-width: 599px) {
+  .magic-bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 600px) {
+  .magic-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .magic-bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .magic-bento-card:nth-child(1) {
+    grid-column: span 2;
+  }
+  .magic-bento-card:nth-child(4) {
+    grid-column: span 2;
+  }
+}
+
+.magic-bento-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  min-height: 200px;
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgb(var(--border) / 0.4);
+  background: rgb(var(--bg-secondary));
+  color: rgb(var(--text-primary));
+  font-weight: 300;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  --glow-radius: 200px;
+  --glow-color: 56, 189, 248;
+}
+
+.magic-bento-card:hover {
+  transform: translateY(-2px);
+}
+
+.magic-bento-card__header {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 2;
+}
+
+.magic-bento-card__label {
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgb(var(--accent));
+  font-weight: 600;
+}
+
+.magic-bento-card__icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  background: rgb(var(--accent) / 0.1);
+  border: 1px solid rgb(var(--accent) / 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--accent));
+}
+
+.magic-bento-card__content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+}
+
+.magic-bento-card__title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: 0 0 0.5rem;
+  color: rgb(var(--text-primary));
+}
+
+.magic-bento-card__description {
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: rgb(var(--text-secondary));
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+}
+
+/* Border glow follows the cursor */
+.magic-bento-card--border-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: radial-gradient(
+    var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.8)) 0%,
+    rgba(var(--glow-color), calc(var(--glow-intensity) * 0.4)) 30%,
+    transparent 60%
+  );
+  border-radius: inherit;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.magic-bento-card--border-glow:hover {
+  box-shadow:
+    0 4px 20px rgba(var(--glow-color), 0.15),
+    0 0 30px rgba(var(--glow-color), 0.15);
+}
+
+.particle-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.global-spotlight {
+  mix-blend-mode: screen;
+  will-change: transform, opacity;
+  z-index: 200 !important;
+  pointer-events: none;
+}
+
+.bento-section {
+  position: relative;
+  user-select: none;
+}

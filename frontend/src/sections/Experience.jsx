@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import SectionBackground from '../components/SectionBackground';
+import { TerminalWindow } from '../components/SectionMockup';
 
 const bullets = [
   'Shipped 3+ production-grade mobile applications to App Store and Play Store using React Native',
@@ -14,8 +16,11 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="section-padding container-max py-24 md:py-32"
+      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
     >
+      <SectionBackground />
+      <TerminalWindow style={{ top: '10%', right: '8%' }} className="hidden md:block" />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -36,7 +41,7 @@ function Experience() {
         transition={{ duration: 0.7 }}
         className="relative max-w-4xl mx-auto bg-navy-light border border-slate-dark/30 rounded-xl
                    overflow-hidden hover:border-accent transition-all duration-500
-                   hover:shadow-[0_0_30px_rgba(103,232,249,0.15)]"
+                   hover:shadow-[0_0_30px_rgba(56,189,248,0.15)]"
       >
         {/* Red gradient top bar */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-accent/60 to-transparent" />

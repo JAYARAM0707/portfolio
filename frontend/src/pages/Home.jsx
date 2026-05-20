@@ -1,36 +1,24 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Download, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import AnimatedNumber from '../components/AnimatedNumber';
+import Prism from '../components/Prism';
+import PhoneMockup from '../components/PhoneMockup';
 import About from '../sections/About';
 import Skills from '../sections/Skills';
 import Experience from '../sections/Experience';
 import Projects from '../sections/Projects';
 import Contact from '../sections/Contact';
-import { profile } from '../data/profile';
-
-const ROTATING_TAGLINES = [
-  'mobile experiences',
-  'AI integrations',
-  'scalable systems',
-  'production apps',
-];
 
 function Home() {
-  const [taglineIdx, setTaglineIdx] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(
-      () => setTaglineIdx((i) => (i + 1) % ROTATING_TAGLINES.length),
-      2500
-    );
-    return () => clearInterval(t);
-  }, []);
-
   return (
-    <div className="bg-navy min-h-screen text-slate-lightest overflow-x-hidden">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-navy min-h-screen text-slate-lightest overflow-x-hidden"
+    >
       <Navbar />
 
       <main>
@@ -39,22 +27,20 @@ function Home() {
           id="home"
           className="relative overflow-hidden min-h-screen flex items-center pt-24 pb-24 sm:pt-28 sm:pb-28"
         >
-          {/* Drifting gradient orbs — depth behind hero */}
-          <div className="absolute inset-0 pointer-events-none">
-            <motion.div
-              animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0] }}
-              transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full bg-accent/20 blur-3xl"
-            />
-            <motion.div
-              animate={{ x: [0, -50, 30, 0], y: [0, 40, -20, 0] }}
-              transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute bottom-[15%] right-[8%] w-96 h-96 rounded-full bg-accent/15 blur-3xl"
-            />
-            <motion.div
-              animate={{ x: [-30, 30, -30], y: [0, -25, 0] }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] rounded-full bg-accent/10 blur-3xl"
+          {/* Prism — 3D WebGL background accent */}
+          <div className="absolute inset-0 pointer-events-none opacity-50">
+            <Prism
+              animationType="rotate"
+              timeScale={0.3}
+              height={3.5}
+              baseWidth={5.5}
+              scale={4.5}
+              hueShift={0}
+              colorFrequency={0.8}
+              noise={0.25}
+              glow={0.8}
+              bloom={0.9}
+              suspendWhenOffscreen
             />
           </div>
 
@@ -69,159 +55,65 @@ function Home() {
               transition={{ duration: 0.7 }}
               className="order-2 lg:order-1 text-center lg:text-left"
             >
-              <p className="eyebrow mb-3 sm:mb-4">Software Engineer</p>
-
-              <h1 className="font-display font-extrabold text-slate-lightest text-[2.25rem] sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight mb-4 sm:mb-5 break-words">
-                {profile.shortName}{' '}
-                <span className="text-accent">
-                  {profile.name.split(' ').slice(1).join(' ')}
+              {/* Status pill */}
+              <motion.span
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full
+                           bg-accent/10 border border-accent/40 mb-5 sm:mb-6"
+              >
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
                 </span>
+                <span className="text-xs font-mono uppercase tracking-wider text-accent">
+                  Available for Work
+                </span>
+              </motion.span>
+
+              {/* Role as the headline — two-line, big like the reference */}
+              <h1 className="font-display font-extrabold text-slate-lightest text-[2.5rem] sm:text-6xl md:text-7xl lg:text-7xl xl:text-[5.5rem] leading-[1] tracking-tight mb-3 sm:mb-4">
+                Mobile App<br />
+                <span className="text-accent">Developer</span>
               </h1>
 
-              {/* Rotating tagline */}
-              <div className="text-xl sm:text-2xl md:text-3xl font-display font-bold text-slate-light mb-5 sm:mb-6 h-[1.4em] flex items-baseline justify-center lg:justify-start gap-2 flex-wrap">
-                <span>I build</span>
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={ROTATING_TAGLINES[taglineIdx]}
-                    initial={{ y: 18, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -18, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="inline-block text-accent"
-                  >
-                    {ROTATING_TAGLINES[taglineIdx]}.
-                  </motion.span>
-                </AnimatePresence>
-              </div>
-
-              <p className="text-slate-light text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-6 sm:mb-8 leading-relaxed">
-                Software Engineer at{' '}
-                <span className="text-slate-lightest font-semibold">Revolution Labs</span>{' '}
-                shipping production-grade React Native apps with{' '}
-                <span className="text-slate-lightest font-semibold">AI integrations</span>{' '}
-                and real-time backend modules.
+              {/* Specialty subtitle */}
+              <p className="font-mono text-sm sm:text-base text-slate-light mb-5 sm:mb-6">
+                React Native · iOS · Android · AI Integration
               </p>
 
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
-                <a href="#projects" className="btn-primary">
-                  View Projects
-                  <ArrowRight size={16} />
-                </a>
-                <a href="/resume.pdf" download className="btn-outline">
-                  <Download size={16} />
-                  Download Resume
-                </a>
-              </div>
+              <p className="text-slate-light text-sm sm:text-base md:text-lg max-w-xl mx-auto lg:mx-0 mb-6 sm:mb-7 leading-relaxed">
+                Building production-grade React Native apps with{' '}
+                <span className="text-accent font-semibold">GPT-4</span>{' '}
+                integrations and real-time modules at{' '}
+                <span className="text-slate-lightest font-semibold">Revolution Labs</span>.
+              </p>
 
-              {/* Stats row — count up when in view */}
-              <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-10 mt-10 sm:mt-14 max-w-xl mx-auto lg:mx-0">
-                {[
-                  { value: 1, suffix: '+', label: 'Years Experience' },
-                  { value: 3, suffix: '+', label: 'Projects Shipped' },
-                  { value: 10, suffix: '+', label: 'Technologies' },
-                ].map((stat) => (
-                  <div key={stat.label}>
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-display font-extrabold text-accent">
-                      <AnimatedNumber value={stat.value} suffix={stat.suffix} />
-                    </div>
-                    <div className="text-[0.7rem] sm:text-xs md:text-sm text-slate mt-1 leading-tight">
-                      {stat.label}
-                    </div>
-                  </div>
+              {/* Tech badges — small inline */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 mb-7">
+                {['React Native', 'React.js', 'JavaScript', 'Python', 'Tailwind', 'SQL'].map((t, i) => (
+                  <motion.span
+                    key={t}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.5 + i * 0.06 }}
+                    className="px-2.5 py-1 rounded-md text-[0.7rem] sm:text-xs font-mono
+                               bg-navy-light border border-slate-dark/40
+                               text-slate-light hover:border-accent hover:text-accent
+                               transition-colors duration-300"
+                  >
+                    {t}
+                  </motion.span>
                 ))}
               </div>
+
             </motion.div>
 
-            {/* RIGHT COLUMN — portrait with decorative rings */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="order-1 lg:order-2 flex items-center justify-center relative"
-            >
-              <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-[22rem] lg:h-[22rem] xl:w-96 xl:h-96">
-                {/* Soft pulsing aura */}
-                <motion.div
-                  animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.55, 0.3] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute inset-4 rounded-full bg-accent/25 blur-3xl pointer-events-none"
-                />
-
-                {/* Wireframe sphere — rotates clockwise */}
-                <motion.svg
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
-                  viewBox="-100 -100 200 200"
-                  className="absolute inset-0 w-full h-full pointer-events-none text-accent"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.5"
-                  strokeLinecap="round"
-                >
-                  <circle cx="0" cy="0" r="95" opacity="0.45" />
-                  {[0, 30, 60, 90, 120, 150].map((rot) => (
-                    <ellipse
-                      key={`outer-${rot}`}
-                      cx="0" cy="0"
-                      rx="95" ry="38"
-                      opacity="0.5"
-                      transform={`rotate(${rot})`}
-                    />
-                  ))}
-                </motion.svg>
-
-                {/* Inner wireframe layer — counter-rotates, dashed */}
-                <motion.svg
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 36, repeat: Infinity, ease: 'linear' }}
-                  viewBox="-100 -100 200 200"
-                  className="absolute inset-0 w-full h-full pointer-events-none text-accent"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="0.4"
-                  strokeDasharray="2 3"
-                >
-                  {[15, 75, 135].map((rot) => (
-                    <ellipse
-                      key={`inner-${rot}`}
-                      cx="0" cy="0"
-                      rx="88" ry="22"
-                      opacity="0.55"
-                      transform={`rotate(${rot})`}
-                    />
-                  ))}
-                </motion.svg>
-
-                {/* Avatar inside a clean red ring with hover scale */}
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.4, ease: 'easeOut' }}
-                  className="absolute inset-6 sm:inset-8 rounded-full overflow-hidden
-                             border-2 border-accent bg-navy-light
-                             shadow-[0_0_50px_rgba(103,232,249,0.5)]"
-                >
-                  <img
-                    src={profile.avatar}
-                    alt={profile.name}
-                    className="w-full h-full object-cover"
-                  />
-                </motion.div>
-
-                {/* Floating "Available" pill */}
-                <motion.div
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute bottom-0 right-0 sm:-bottom-2 sm:-right-2 bg-navy-light border border-accent/40 rounded-full px-3 py-1.5 sm:px-4 sm:py-2 flex items-center gap-2 shadow-lg"
-                >
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
-                  </span>
-                  <span className="text-xs sm:text-sm font-medium text-slate-lightest">Available</span>
-                </motion.div>
-              </div>
-            </motion.div>
+            {/* RIGHT COLUMN — 3D phone mockup */}
+            <div className="order-1 lg:order-2 flex items-center justify-center relative">
+              <PhoneMockup />
+            </div>
           </div>
           </div>
 
@@ -266,7 +158,7 @@ function Home() {
       </main>
 
       <Footer />
-    </div>
+    </motion.div>
   );
 }
 

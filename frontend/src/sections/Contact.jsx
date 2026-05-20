@@ -9,6 +9,8 @@ import {
   Loader2,
 } from 'lucide-react';
 import { Github, Linkedin } from '../components/SocialIcons';
+import SectionBackground from '../components/SectionBackground';
+import { ChatbotBubble } from '../components/SectionMockup';
 import { profile } from '../data/profile';
 
 const contactMethods = [
@@ -102,8 +104,11 @@ function Contact() {
   return (
     <section
       id="contact"
-      className="section-padding container-max py-24 md:py-32"
+      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
     >
+      <SectionBackground />
+      <ChatbotBubble style={{ top: '12%', right: '10%' }} className="hidden md:block" />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

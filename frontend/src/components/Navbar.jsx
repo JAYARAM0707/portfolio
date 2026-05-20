@@ -76,8 +76,8 @@ function Navbar() {
                 <motion.div
                   animate={{
                     boxShadow: [
-                      '0 0 0 0 rgba(103, 232, 249, 0.45)',
-                      '0 0 0 10px rgba(103, 232, 249, 0)',
+                      '0 0 0 0 rgba(56, 189, 248, 0.45)',
+                      '0 0 0 10px rgba(56, 189, 248, 0)',
                     ],
                   }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeOut' }}
@@ -92,9 +92,6 @@ function Navbar() {
               <div className="hidden sm:flex flex-col leading-tight min-w-0">
                 <span className="text-sm md:text-base font-display font-bold text-slate-lightest group-hover:text-accent transition-colors duration-300 truncate">
                   {profile.name}
-                </span>
-                <span className="text-[0.65rem] md:text-xs font-mono text-accent">
-                  &lt;developer /&gt;
                 </span>
               </div>
             </Link>

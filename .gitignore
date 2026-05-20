@@ -5,36 +5,75 @@ node_modules/
 dist/
 dist-ssr/
 *.local
+.vite/
+.cache/
+coverage/
+*.tsbuildinfo
+
+# Env files — never commit secrets
 .env
-.env.local
-.env.production
-.env.development
+.env.*
+!.env.example
 
 # ==========================================
 # Python (backend)
 # ==========================================
 venv/
 env/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
 .Python
 *.egg-info/
+*.egg
+build/
+develop-eggs/
+.installed.cfg
 
 # ==========================================
-# Editor / OS
+# Editor / IDE / OS
 # ==========================================
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 .idea/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
 .DS_Store
 Thumbs.db
+desktop.ini
 
 # ==========================================
-# Logs
+# Logs & temp
 # ==========================================
 *.log
+logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.pid
+*.seed
+*.pid.lock
+
+# ==========================================
+# Personal / local-only files (never push)
+# ==========================================
+# Avoid leaking the original resume PDF if you keep a working copy here
+# Comment this OUT once you have a public-safe resume in public/resume.pdf
+# *.pdf
+
+# Local notes / scratch
+NOTES.md
+TODO.local.md
+.scratch/

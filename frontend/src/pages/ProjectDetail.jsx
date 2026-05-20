@@ -6,13 +6,14 @@ function ProjectDetail() {
   const { slug } = useParams();
 
   return (
-    <div className="min-h-screen bg-navy text-slate-lightest section-padding container-max py-24 md:py-32">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-3xl mx-auto"
-      >
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.4 }}
+      className="min-h-screen bg-navy text-slate-lightest section-padding container-max py-24 md:py-32"
+    >
+      <div className="max-w-3xl mx-auto">
         <Link
           to="/"
           className="inline-flex items-center gap-2 text-sm font-mono text-slate-light
@@ -39,8 +40,8 @@ function ProjectDetail() {
             and lessons learned for each project.
           </p>
         </div>
-      </motion.div>
-    </div>
+      </div>
+    </motion.div>
   );
 }
 

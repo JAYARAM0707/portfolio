@@ -1,19 +1,23 @@
 import { motion } from 'framer-motion';
 import { Star, Sparkles, ArrowUpRight, Lock } from 'lucide-react';
 import { projects } from '../data/projects';
+import TiltedCard from '../components/TiltedCard';
+import SectionBackground from '../components/SectionBackground';
+import { MessageCard } from '../components/SectionMockup';
 
 const GITHUB_URL = 'https://github.com/JAYARAM0707';
 
 function ProjectCard({ project, index }) {
   return (
-    <motion.article
+    <TiltedCard
+      maxTilt={6}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.7, delay: index * 0.15 }}
       className="relative max-w-5xl mx-auto bg-navy-light border border-slate-dark/30 rounded-2xl
-                 overflow-hidden hover:border-accent transition-all duration-500
-                 hover:shadow-[0_0_30px_rgba(103,232,249,0.15)]"
+                 overflow-hidden hover:border-accent transition-colors duration-500
+                 hover:shadow-[0_0_30px_rgba(56,189,248,0.15)]"
     >
       {/* Red gradient top bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-accent/60 to-transparent" />
@@ -113,7 +117,7 @@ function ProjectCard({ project, index }) {
           ))}
         </div>
       </div>
-    </motion.article>
+    </TiltedCard>
   );
 }
 
@@ -121,8 +125,16 @@ function Projects() {
   return (
     <section
       id="projects"
-      className="section-padding container-max py-24 md:py-32"
+      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
     >
+      <SectionBackground />
+      <MessageCard
+        style={{ top: '12%', right: '8%' }}
+        name="App Store"
+        text="3+ apps shipped ✓"
+        className="hidden md:block"
+      />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

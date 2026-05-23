@@ -12,6 +12,7 @@ import { Github, Linkedin } from '../components/SocialIcons';
 import SectionBackground from '../components/SectionBackground';
 import { ChatbotBubble } from '../components/SectionMockup';
 import { profile } from '../data/profile';
+import { submitContactForm } from '../lib/api';
 
 const contactMethods = [
   {
@@ -74,22 +75,32 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const v = validate(formData);
     if (Object.keys(v).length > 0) {
       setErrors(v);
       return;
     }
+
     setErrors({});
     setIsSubmitting(true);
 
-    // Fake API call — backend wiring comes later
-    await new Promise((r) => setTimeout(r, 1000));
+    try {
+      await submitContactForm({
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject?.trim() || undefined,
+        message: formData.message.trim(),
+      });
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-
-    setTimeout(() => setIsSuccess(false), 5000);
+      setIsSuccess(true);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (error) {
+      setErrors({ submit: error.message || 'Failed to send message. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputBase =
@@ -299,6 +310,13 @@ function Contact() {
                     </p>
                   )}
                 </div>
+
+                {errors.submit && (
+                  <p className="mt-2 text-sm text-red-400 flex items-center gap-1.5">
+                    <AlertCircle size={14} />
+                    {errors.submit}
+                  </p>
+                )}
 
                 <motion.button
                   type="submit"

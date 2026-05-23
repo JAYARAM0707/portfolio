@@ -16,6 +16,17 @@ coverage/
 !.env.example
 
 # ==========================================
+# Sensitive files (extra paranoia)
+# ==========================================
+*.pem              # SSL certificates / private keys
+*.key              # API keys / private keys
+*.crt              # Certificates
+.env.production    # Production env vars (just in case)
+credentials.json   # Service account files (e.g., Google, AWS)
+*.sqlite           # Local databases
+*.db               # Local databases
+
+# ==========================================
 # Python (backend)
 # ==========================================
 venv/
@@ -69,9 +80,7 @@ lerna-debug.log*
 # ==========================================
 # Personal / local-only files (never push)
 # ==========================================
-# Avoid leaking the original resume PDF if you keep a working copy here
-# Comment this OUT once you have a public-safe resume in public/resume.pdf
-# *.pdf
+# Keep PDFs tracked (we WANT public/resume.pdf in the repo so Vercel serves it)
 
 # Local notes / scratch
 NOTES.md

@@ -28,56 +28,77 @@ router = APIRouter(
     tags=["Contact"],  # Groups endpoints in the Swagger UI for nice organization
 )
 
-
 @router.post(
     "",
     response_model=ContactResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Submit a contact form message",
     description="Receives a contact form submission, saves it to MongoDB, "
-                "and returns a confirmation with the new document's ID.",
+                "and sends an email notification.",
 )
 async def create_contact(payload: ContactCreate):
     """
-    Save a new contact form submission to the database.
+    Save a new contact form submission to the database
+    and notify the owner via email.
 
-    The 'payload' parameter is automatically:
-    - Read from the JSON request body
-    - Validated against ContactCreate (rejects bad data with 422 error)
-    - Converted to a Python object
+    Email failure does NOT fail the request — submission is still saved.
     """
-    try:
-        # Get the database instance (set up during FastAPI startup)
-        db = get_database()
+    db = get_database()
 
-        # Build the document to insert.
-        # We use .model_dump() to convert the Pydantic object to a dict.
-        # We add created_at because the schema didn't include it (server-generated).
+    # ============================================
+    # STEP 1: Save to MongoDB (critical — fail if this fails)
+    # ============================================
+    try:
         document = payload.model_dump()
         document["created_at"] = datetime.now(timezone.utc)
-        document["status"] = "new"  # could be 'new', 'read', 'replied' later
+        document["status"] = "new"
 
-        # Insert into MongoDB.
-        # db.contacts refers to the 'contacts' collection inside portfolio_db.
-        # If the collection doesn't exist yet, MongoDB creates it automatically.
         result = await db.contacts.insert_one(document)
-
-        # result.inserted_id is the unique ID MongoDB generated for the new doc
         print(f"📩 New contact saved: {result.inserted_id} from {payload.email}")
 
-        # Build the response
-        return ContactResponse(
-            success=True,
-            message="Thanks! Your message has been received.",
-            id=str(result.inserted_id),  # convert ObjectId to string for JSON
-            created_at=document["created_at"],
-        )
-
     except Exception as e:
-        # If anything goes wrong (DB down, network issue, etc.),
-        # return a clean 500 error instead of crashing.
-        print(f"❌ Failed to save contact: {e}")
+        print(f"❌ Failed to save contact to MongoDB: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Could not save your message. Please try again later.",
         )
+
+    # ============================================
+    # STEP 2: Send notifications (best-effort — don't fail request)
+    # ============================================
+    from app.services.notifications import (
+        send_contact_notification_email,
+        send_contact_notification_telegram,
+    )
+
+    # Email notification
+    try:
+        await send_contact_notification_email(
+            name=payload.name,
+            email=payload.email,
+            subject=payload.subject,
+            message=payload.message,
+        )
+    except Exception as e:
+        print(f"⚠️  Email notification failed (but submission is saved): {e}")
+
+    # Telegram notification
+    try:
+        await send_contact_notification_telegram(
+            name=payload.name,
+            email=payload.email,
+            subject=payload.subject,
+            message=payload.message,
+        )
+    except Exception as e:
+        print(f"⚠️  Telegram notification failed (but submission is saved): {e}")
+
+    # ============================================
+    # STEP 3: Return success
+    # ============================================
+    return ContactResponse(
+        success=True,
+        message="Thanks! Your message has been received.",
+        id=str(result.inserted_id),
+        created_at=document["created_at"],
+    )

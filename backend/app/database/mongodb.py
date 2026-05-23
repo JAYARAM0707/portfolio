@@ -11,7 +11,7 @@ Pattern:
 - Connection opens on FastAPI startup
 - Connection closes on FastAPI shutdown
 """
-
+import certifi
 from motor.motor_asyncio import AsyncIOMotorClient
 from app.config.settings import MONGO_URI, MONGO_DB_NAME
 
@@ -38,7 +38,12 @@ async def connect_to_mongo():
     print("🔌 Connecting to MongoDB...")
     try:
         # Create the async MongoDB client
-        client = AsyncIOMotorClient(MONGO_URI)
+        client = AsyncIOMotorClient(
+            MONGO_URI,
+            tls=True,
+            tlsCAFile=certifi.where(),
+            serverSelectionTimeoutMS=30000,
+        )
 
         # Ping the server to verify the connection actually works.
         # If credentials are wrong or network is blocked, this raises.

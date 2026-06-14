@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Home, User, Briefcase, Mail, Search, Bell } from 'lucide-react';
 import { profile } from '../data/profile';
 
-// Floating language logos around the phone — same stack shown in the atom.
+// Floating language logos around the phone.
 const FLOATING_TECH = [
   { name: 'React',        slug: 'react',       color: '61DAFB', pos: '-top-4 -left-8 sm:-left-12' },
   { name: 'JavaScript',   slug: 'javascript',  color: 'F7DF1E', pos: 'top-1/3 -right-8 sm:-right-12' },
@@ -10,21 +10,16 @@ const FLOATING_TECH = [
   { name: 'Tailwind CSS', slug: 'tailwindcss', color: '06B6D4', pos: 'bottom-1/4 -right-6 sm:-right-10' },
 ];
 
-// Project cards inside the phone screen — auto-scroll like a real feed.
-const PROJECTS_IN_APP = [
-  { title: 'Yolo & Bolo',  tag: 'React Native',  accent: 'bg-accent' },
-  { title: 'Callvarse',    tag: 'VoIP · iOS',    accent: 'bg-accent/70' },
-  { title: 'YoloAi',       tag: 'GPT-4 · Chat',  accent: 'bg-accent' },
-  { title: 'Portfolio',    tag: 'React · Vite',  accent: 'bg-accent/70' },
+// Generic "what I do" rows — no company/product names (safe to display).
+const APP_WORK = [
+  { title: 'Mobile Development', tag: 'React Native · iOS · Android', accent: 'bg-accent' },
+  { title: 'AI Integration',     tag: 'GPT-4 · Smart features',       accent: 'bg-accent/70' },
+  { title: 'Real-time Systems',  tag: 'VoIP · Notifications',         accent: 'bg-accent' },
+  { title: 'Web Apps',           tag: 'React · Tailwind',             accent: 'bg-accent/70' },
 ];
 
-// Mini message rows that look like notifications inside the phone
-const MESSAGES = [
-  { from: 'GitHub',   text: 'PR #42 merged ✓',     time: '2m' },
-  { from: 'Vercel',   text: 'Build succeeded',     time: '5m' },
-  { from: 'Slack',    text: 'New message · Team',  time: '12m' },
-  { from: 'Linear',   text: '3 issues assigned',   time: '1h' },
-];
+// Tech chips for the phone's "stack" strip.
+const APP_STACK = ['React Native', 'JavaScript', 'Python', 'Tailwind', 'SQL'];
 
 function PhoneMockup() {
   return (
@@ -33,7 +28,7 @@ function PhoneMockup() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
       style={{ perspective: 1200 }}
-      className="relative w-56 h-[26rem] sm:w-64 sm:h-[28rem] md:w-72 md:h-[32rem] mx-auto"
+      className="relative w-44 h-[23rem] sm:w-52 sm:h-[27rem] md:w-60 md:h-[31rem] lg:w-72 lg:h-[34rem] mx-auto my-2"
     >
       {/* Soft accent glow behind the phone */}
       <motion.div
@@ -53,82 +48,82 @@ function PhoneMockup() {
                    shadow-2xl shadow-accent/10 cursor-pointer"
       >
         {/* Dynamic island / notch */}
-        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-navy rounded-full z-20 flex items-center justify-end pr-2">
+        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 sm:w-24 h-5 sm:h-6 bg-navy rounded-full z-20 flex items-center justify-end pr-2">
           <div className="w-1.5 h-1.5 rounded-full bg-accent" />
         </div>
 
-        {/* SCREEN — theme-inverted: always shows the OPPOSITE of the page theme.
-            Light page → dark mobile UI. Dark page → light mobile UI. */}
-        <div className="theme-inverted absolute inset-3 rounded-[2rem] bg-navy overflow-hidden flex flex-col">
+        {/* SCREEN — theme-inverted: shows the OPPOSITE of the page theme.
+            This is a generic mini "portfolio app" — no company/product data. */}
+        <div className="theme-inverted absolute inset-2.5 sm:inset-3 rounded-[1.7rem] sm:rounded-[2rem] bg-navy overflow-hidden flex flex-col">
           {/* Status bar */}
-          <div className="flex items-center justify-between px-5 pt-1.5 pb-1 text-[0.55rem] font-mono text-slate-light">
+          <div className="flex items-center justify-between px-4 pt-1.5 pb-1 text-[0.5rem] sm:text-[0.55rem] font-mono text-slate-light">
             <span>9:41</span>
             <span className="flex items-center gap-1">
-              <span className="text-[0.5rem]">●●●●</span>
+              <span className="text-[0.45rem]">●●●●</span>
               <span>5G</span>
-              <span>🔋</span>
             </span>
           </div>
 
-          {/* Header — avatar + name + bell */}
-          <div className="px-4 pt-3 pb-2 flex items-center gap-2.5 border-b border-slate-dark/30">
+          {/* Header — avatar + name + role */}
+          <div className="px-3 sm:px-4 pt-2 pb-2 flex items-center gap-2 border-b border-slate-dark/30">
             <img
               src={profile.avatar}
               alt={profile.name}
-              className="w-9 h-9 rounded-full border border-accent shrink-0"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-accent shrink-0"
             />
             <div className="flex-1 min-w-0">
-              <div className="text-[0.55rem] text-slate-light">Welcome back,</div>
-              <div className="text-xs font-bold text-slate-lightest truncate">
-                {profile.shortName} 👋
+              <div className="text-[0.55rem] sm:text-xs font-bold text-slate-lightest truncate">
+                {profile.name}
+              </div>
+              <div className="text-[0.45rem] sm:text-[0.55rem] font-mono text-accent truncate">
+                Mobile Developer
               </div>
             </div>
-            <div className="relative w-7 h-7 rounded-lg bg-navy-light flex items-center justify-center">
-              <Bell size={12} className="text-slate-light" />
+            <div className="relative w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-navy-light flex items-center justify-center shrink-0">
+              <Bell size={11} className="text-slate-light" />
               <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 rounded-full bg-accent" />
             </div>
           </div>
 
           {/* Search bar */}
-          <div className="px-4 mt-3">
-            <div className="flex items-center gap-2 h-7 bg-navy-light border border-slate-dark/40 rounded-lg px-2.5">
-              <Search size={10} className="text-slate" />
-              <span className="text-[0.55rem] font-mono text-slate">Search projects…</span>
+          <div className="px-3 sm:px-4 mt-2.5">
+            <div className="flex items-center gap-2 h-6 sm:h-7 bg-navy-light border border-slate-dark/40 rounded-lg px-2">
+              <Search size={10} className="text-slate shrink-0" />
+              <span className="text-[0.5rem] sm:text-[0.55rem] font-mono text-slate truncate">Search…</span>
             </div>
           </div>
 
           {/* Section label */}
-          <div className="px-4 mt-3 flex items-center justify-between">
-            <span className="text-[0.55rem] font-mono text-accent uppercase tracking-widest">
-              My Projects
+          <div className="px-3 sm:px-4 mt-2.5 mb-1">
+            <span className="text-[0.5rem] sm:text-[0.55rem] font-mono text-accent uppercase tracking-widest">
+              What I Build
             </span>
-            <span className="text-[0.55rem] text-slate">See all</span>
           </div>
 
-          {/* Scrolling project list */}
-          <div className="relative mx-4 mt-1.5 h-24 sm:h-28 overflow-hidden rounded-lg">
+          {/* Auto-scrolling capability cards */}
+          <div className="relative mx-3 sm:mx-4 flex-1 overflow-hidden rounded-lg">
             <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-navy to-transparent z-10 pointer-events-none" />
             <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-navy to-transparent z-10 pointer-events-none" />
             <motion.div
               animate={{ y: ['0%', '-50%'] }}
-              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 11, repeat: Infinity, ease: 'linear' }}
               className="space-y-1.5"
             >
-              {[...PROJECTS_IN_APP, ...PROJECTS_IN_APP].map((p, i) => (
+              {[...APP_WORK, ...APP_WORK].map((p, i) => (
                 <div
                   key={i}
                   className="flex items-center gap-2 bg-navy-light border border-slate-dark/30 rounded-lg px-2 py-1.5"
                 >
-                  <div className={`w-7 h-7 rounded-md ${p.accent} shrink-0 flex items-center justify-center`}>
-                    <span className="text-[0.55rem] font-bold text-navy">
+                  <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-md ${p.accent} shrink-0 flex items-center justify-center`}>
+                    <span className="text-[0.5rem] sm:text-[0.55rem] font-bold text-navy">
                       {p.title[0]}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[0.6rem] font-semibold text-slate-lightest truncate">
+                    <div className="text-[0.55rem] sm:text-[0.6rem] font-semibold text-slate-lightest truncate">
                       {p.title}
                     </div>
-                    <div className="text-[0.5rem] font-mono text-slate truncate">
+                    <div className="text-[0.45rem] sm:text-[0.5rem] font-mono text-slate truncate">
                       {p.tag}
                     </div>
                   </div>
@@ -137,54 +132,27 @@ function PhoneMockup() {
             </motion.div>
           </div>
 
-          {/* Section label */}
-          <div className="px-4 mt-2 flex items-center justify-between">
-            <span className="text-[0.55rem] font-mono text-accent uppercase tracking-widest">
-              Activity
-            </span>
-          </div>
-
-          {/* Scrolling messages */}
-          <div className="relative mx-4 mt-1.5 flex-1 overflow-hidden rounded-lg">
-            <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-navy to-transparent z-10 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-navy to-transparent z-10 pointer-events-none" />
-            <motion.div
-              animate={{ y: ['0%', '-50%'] }}
-              transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-              className="space-y-1.5"
-            >
-              {[...MESSAGES, ...MESSAGES].map((m, i) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-2 bg-navy-light border border-slate-dark/30 rounded-lg px-2 py-1.5"
+          {/* Tech stack chips */}
+          <div className="px-3 sm:px-4 mt-2">
+            <div className="flex flex-wrap gap-1">
+              {APP_STACK.map((t) => (
+                <span
+                  key={t}
+                  className="px-1.5 py-0.5 rounded text-[0.4rem] sm:text-[0.45rem] font-mono
+                             bg-accent/10 border border-accent/30 text-accent"
                 >
-                  <div className="w-6 h-6 rounded-full bg-accent/20 border border-accent/40 shrink-0 flex items-center justify-center">
-                    <span className="text-[0.5rem] font-bold text-accent">
-                      {m.from[0]}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[0.55rem] font-semibold text-slate-lightest">
-                        {m.from}
-                      </span>
-                      <span className="text-[0.5rem] text-slate">{m.time}</span>
-                    </div>
-                    <div className="text-[0.5rem] text-slate-light truncate">
-                      {m.text}
-                    </div>
-                  </div>
-                </div>
+                  {t}
+                </span>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* Bottom nav bar */}
-          <div className="mx-4 mb-3 mt-2 bg-navy-light/90 backdrop-blur border border-slate-dark/40 rounded-2xl flex items-center justify-around py-2">
-            <Home size={14} className="text-accent" />
-            <User size={14} className="text-slate-light" />
-            <Briefcase size={14} className="text-slate-light" />
-            <Mail size={14} className="text-slate-light" />
+          <div className="mx-3 sm:mx-4 mb-2.5 mt-2 bg-navy-light/90 backdrop-blur border border-slate-dark/40 rounded-2xl flex items-center justify-around py-1.5 sm:py-2">
+            <Home size={13} className="text-accent" />
+            <User size={13} className="text-slate-light" />
+            <Briefcase size={13} className="text-slate-light" />
+            <Mail size={13} className="text-slate-light" />
           </div>
         </div>
 
@@ -196,12 +164,12 @@ function PhoneMockup() {
 
       {/* Tiny twinkling sparkles around the phone */}
       {[
-        { top: '5%',   left: '-12%', d: 1.6 },
-        { top: '20%',  left: '108%', d: 1.8 },
-        { top: '55%',  left: '-15%', d: 2.0 },
-        { top: '70%',  left: '110%', d: 1.5 },
-        { top: '90%',  left: '12%',  d: 1.7 },
-        { top: '40%',  left: '105%', d: 1.9 },
+        { top: '5%',  left: '-12%', d: 1.6 },
+        { top: '20%', left: '108%', d: 1.8 },
+        { top: '55%', left: '-15%', d: 2.0 },
+        { top: '70%', left: '110%', d: 1.5 },
+        { top: '90%', left: '12%',  d: 1.7 },
+        { top: '40%', left: '105%', d: 1.9 },
       ].map((s, i) => (
         <motion.span
           key={`spark-${i}`}
@@ -219,11 +187,7 @@ function PhoneMockup() {
         <motion.div
           key={tech.slug}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-            y: [0, -8, 0],
-          }}
+          animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
           transition={{
             opacity: { duration: 0.5, delay: 0.6 + i * 0.15 },
             scale: { duration: 0.5, delay: 0.6 + i * 0.15 },
@@ -231,8 +195,8 @@ function PhoneMockup() {
           }}
           whileHover={{ scale: 1.2 }}
           title={tech.name}
-          className={`absolute ${tech.pos} w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14
-                      rounded-xl bg-navy-light border border-accent/40 shadow-lg p-2
+          className={`absolute ${tech.pos} w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14
+                      rounded-xl bg-navy-light border border-accent/40 shadow-lg p-1.5 sm:p-2
                       cursor-pointer pointer-events-auto z-10
                       hover:shadow-[0_0_20px_rgba(56,189,248,0.6)] transition-shadow`}
         >

@@ -8,7 +8,7 @@ import { useScrollSpy } from '../hooks/useScrollSpy';
 import { profile } from '../data/profile';
 
 const navLinks = [
-  { name: 'Home', href: '#home' },
+  { name: 'Home', href: '#intro' },
   { name: 'About', href: '#about' },
   { name: 'Skills', href: '#skills' },
   { name: 'Experience', href: '#experience' },
@@ -24,25 +24,14 @@ const socialLinks = [
   { name: 'Instagram', href: profile.social.instagram, Icon: Instagram },
 ];
 
-function Navbar() {
+function Navbar({ forceHidden = false }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isHidden, setIsHidden] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const { isDark, toggle } = useTheme();
   const activeId = useScrollSpy(sectionIds);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-      setIsScrolled(y > 50);
-      if (y > 100) setIsHidden(y > lastScrollY);
-      else setIsHidden(false);
-      setLastScrollY(y);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
+  // Navbar is hidden ONLY over the video intro (forceHidden). It stays visible
+  // on every other section — no hide-on-scroll-down behaviour.
+  const hidden = forceHidden;
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'auto';
@@ -55,21 +44,32 @@ function Navbar() {
     <>
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
-        animate={{ y: isHidden ? -100 : 0, opacity: isHidden ? 0 : 1 }}
+        animate={{ y: hidden ? -100 : 0, opacity: hidden ? 0 : 1 }}
         transition={{ duration: 0.4, ease: 'easeInOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-          isScrolled
-            ? 'glass shadow-lg shadow-accent/10 py-3 border-b border-slate-dark/30'
-            : 'bg-transparent py-4'
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 w-full bg-transparent py-4"
       >
-        <div className="container-max px-4 sm:px-6 lg:px-10">
+        {/* Inner bar re-plays a settle animation each time a new section
+            becomes active, so the navbar feels like part of that section. */}
+        <motion.div
+          key={activeId}
+          initial={{ y: -14, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="container-max px-4 sm:px-6 lg:px-10"
+        >
           <div className="flex items-center justify-between gap-2">
 
             {/* LEFT: Avatar + Name */}
             <Link
               to="/"
-              onClick={closeMenu}
+              onClick={() => {
+                closeMenu();
+                // If already on the home page, scroll to the video intro.
+                const intro = document.getElementById('intro');
+                if (intro) {
+                  intro.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0 group"
             >
               <div className="relative shrink-0">
@@ -170,7 +170,7 @@ function Navbar() {
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
       </motion.nav>
 
       {/* MOBILE MENU */}

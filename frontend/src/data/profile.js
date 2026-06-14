@@ -6,9 +6,10 @@ export const profile = {
   role: 'Software Engineer',
   email: 'marnijayaram0707@gmail.com',
   location: 'Bangalore, India',
-  // Clean initials avatar. To swap in a real photo:
-  //   1. Drop a square headshot at frontend/public/profile.jpg
-  //   2. Set this to '/profile.jpg'
+  // Real photo for the About portrait. Drop your image at
+  // frontend/public/profile.jpg (or change the path/name to match your file).
+  photo: '/profile.png',
+  // Fallback initials avatar (used in navbar + phone mockup).
   avatar:
     'https://ui-avatars.com/api/?name=Marni+Jayaram' +
     '&background=0284c7&color=ffffff' +

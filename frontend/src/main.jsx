@@ -4,6 +4,13 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
+// Always start at the top (the video intro) on refresh — don't let the
+// browser restore the previous scroll position.
+if ('scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
+window.scrollTo(0, 0);
+
 // Initialise theme before React mounts to avoid a flash of wrong theme.
 (function initTheme() {
   try {

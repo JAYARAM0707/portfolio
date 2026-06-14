@@ -4,27 +4,16 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 import NotFound from './pages/NotFound';
-import SmoothScroll from './components/SmoothScroll';
-import ScrollProgress from './components/ScrollProgress';
-import PreloaderIntro from './components/PreloaderIntro';
+import CinematicIntro from './components/CinematicIntro';
+import { shouldShowIntro } from './lib/intro';
 
 function App() {
   const location = useLocation();
-  const [showIntro, setShowIntro] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return !sessionStorage.getItem('intro-seen');
-  });
-
-  const handleIntroDone = () => {
-    sessionStorage.setItem('intro-seen', '1');
-    setShowIntro(false);
-  };
+  const [showIntro, setShowIntro] = useState(() => shouldShowIntro());
 
   return (
     <>
-      {showIntro && <PreloaderIntro onComplete={handleIntroDone} />}
-      <SmoothScroll />
-      <ScrollProgress />
+      {showIntro && <CinematicIntro onComplete={() => setShowIntro(false)} />}
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />} />

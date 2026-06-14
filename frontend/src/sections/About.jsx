@@ -1,173 +1,210 @@
 import { motion } from 'framer-motion';
-import { Award, Code2, Briefcase, Download, ArrowRight } from 'lucide-react';
-import AnimatedNumber from '../components/AnimatedNumber';
-import SpotlightCard from '../components/SpotlightCard';
+import { Smartphone, Sparkles, Radio, Code2 } from 'lucide-react';
 import SectionBackground from '../components/SectionBackground';
-import { ChatbotBubble } from '../components/SectionMockup';
+import SpotlightCard from '../components/SpotlightCard';
+import { Github, Linkedin, Instagram } from '../components/SocialIcons';
 import { profile } from '../data/profile';
 
-const STATS = [
+const HIGHLIGHTS = [
+  {
+    Icon: Smartphone,
+    title: 'Mobile Development',
+    desc: 'Cross-platform iOS & Android apps with React Native, shipped to production.',
+  },
+  {
+    Icon: Sparkles,
+    title: 'AI Integration',
+    desc: 'GPT-4 APIs and AI-IVR systems for intelligent, automated experiences.',
+  },
+  {
+    Icon: Radio,
+    title: 'Real-time Systems',
+    desc: 'VoIP calling, email sync, push notifications and calendar modules.',
+  },
   {
     Icon: Code2,
-    value: 3,
-    suffix: '+',
-    label: 'Total Projects',
-    sub: 'Production apps shipped to App Store & Play Store',
+    title: 'Clean Engineering',
+    desc: 'Pixel-perfect Figma-to-code, Redux state management, smooth UX.',
   },
-  {
-    Icon: Award,
-    value: 3,
-    suffix: '',
-    label: 'Certificates',
-    sub: 'Professional skills validated',
-  },
-  {
-    Icon: Briefcase,
-    value: 1,
-    suffix: '+',
-    label: 'Years of Experience',
-    sub: 'Continuous learning journey',
-  },
+];
+
+const KEYWORDS = [
+  'Mobile Developer',
+  'React Native',
+  'iOS',
+  'Android',
+  'JavaScript',
+  'Python',
+  'SQL',
+  'AI Integration',
+  'GPT-4',
+  'VoIP',
+  'Redux Toolkit',
+  'Figma to Code',
+  'Problem Solver',
+];
+
+// Bio as words, with accent flags. Each word brightens in sequence (reading focus).
+const BIO_WORDS = [
+  ['Mobile', 1], ['App', 1], ['Developer', 1], ['with', 0], ['1+', 1], ['year', 1],
+  ['building', 0], ['production-grade', 0], ['iOS', 0], ['&', 0], ['Android', 0],
+  ['apps', 0], ['in', 0], ['React', 1], ['Native.', 1],
+  ['At', 0], ['Revolution', 1], ['Labs', 1], ['I', 0], ['ship', 0], ['real', 0],
+  ['apps,', 0], ['integrate', 0], ['GPT-4,', 1], ['and', 0], ['build', 0],
+  ['real-time', 0], ['VoIP', 0], ['&', 0], ['calendar', 0], ['features', 0],
+  ['with', 0], ['pixel-perfect', 0], ['UI.', 0],
+  ['I', 0], ['translate', 0], ['complex', 0], ['Figma', 0], ['designs', 0],
+  ['into', 0], ['responsive', 0], ['screens', 0], ['and', 0], ['care', 0],
+  ['about', 0], ['clean,', 0], ['maintainable', 0], ['code.', 0],
+];
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.045 } },
+};
+const wordVariants = {
+  hidden: { opacity: 0.15 },
+  visible: { opacity: 1, transition: { duration: 0.35, ease: 'easeOut' } },
+};
+
+const socials = [
+  { name: 'GitHub', href: profile.social.github, Icon: Github },
+  { name: 'LinkedIn', href: profile.social.linkedin, Icon: Linkedin },
+  { name: 'Instagram', href: profile.social.instagram, Icon: Instagram },
 ];
 
 function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
+      className="relative section-padding container-max py-24 md:py-32"
     >
       <SectionBackground />
-      <ChatbotBubble style={{ top: '12%', right: '10%' }} className="hidden md:block" />
 
-      {/* Heading + subtitle */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-12 md:mb-16"
-      >
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-accent mb-3">
-          About Me
-        </h2>
-        <p className="text-sm sm:text-base text-slate font-mono">
-          ⌨ Transforming ideas into digital experiences ⌨
-        </p>
-      </motion.div>
+      <div className="grid grid-cols-1 lg:grid-cols-[18rem_minmax(0,1fr)] gap-10 lg:gap-14 items-center">
 
-      {/* Two-column: bio left, portrait right */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-
-        {/* LEFT — bio + CTAs */}
+        {/* LEFT — portrait + signature + socials */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7 }}
+          className="flex flex-col items-center lg:items-start"
         >
-          <p className="eyebrow mb-3">Hello, I'm</p>
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-lightest leading-tight mb-5">
-            {profile.name}
-          </h3>
-
-          <div className="space-y-4 text-slate-light text-base md:text-lg leading-relaxed mb-7">
-            <p>
-              A passionate{' '}
-              <span className="text-slate-lightest font-semibold">Mobile App Developer</span>{' '}
-              specialising in{' '}
-              <span className="text-accent font-semibold">React Native</span>, with hands-on
-              experience building production-grade iOS and Android apps. I love turning
-              complex Figma designs into seamless, pixel-perfect mobile screens.
-            </p>
-            <p>
-              Currently at{' '}
-              <span className="text-slate-lightest font-semibold">Revolution Labs</span>,
-              I build VoIP calling, email, calendar modules and real-time features —
-              combining clean architecture with smooth UX.
-            </p>
+          <div className="relative w-60 h-80 sm:w-72 sm:h-[26rem] rounded-3xl overflow-hidden
+                          border border-slate-dark/40 bg-navy-light shadow-2xl shadow-accent/10">
+            <img
+              src={profile.photo || profile.avatar}
+              alt={profile.name}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
 
-          <div className="flex flex-wrap gap-3">
-            <a href="/resume.pdf" download className="btn-primary">
-              <Download size={16} />
-              Download CV
-            </a>
-            <a href="#projects" className="btn-outline">
-              View Projects
-              <ArrowRight size={16} />
-            </a>
+          {/* Social icons */}
+          <div className="flex items-center gap-2 mt-5">
+            {socials.map(({ name, href, Icon }) => (
+              <a
+                key={name}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={name}
+                className="w-10 h-10 rounded-lg bg-navy-light border border-slate-dark/40
+                           flex items-center justify-center text-slate-light
+                           hover:text-accent hover:border-accent transition-colors duration-300"
+              >
+                <Icon size={18} />
+              </a>
+            ))}
           </div>
         </motion.div>
 
-        {/* RIGHT — clean large portrait */}
+        {/* RIGHT — who I am + keywords + bold bio */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="flex items-center justify-center"
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="min-w-0"
         >
-          <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96">
-            {/* Soft pulsing glow */}
+          <p className="eyebrow mb-4">Who I Am</p>
+
+          {/* Keyword tags — single-line horizontal marquee */}
+          <div className="relative overflow-hidden mb-6 w-full">
+            {/* edge fades */}
+            <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-navy to-transparent z-10 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-navy to-transparent z-10 pointer-events-none" />
             <motion.div
-              animate={{ scale: [1, 1.06, 1], opacity: [0.35, 0.6, 0.35] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-4 rounded-full bg-accent/25 blur-3xl pointer-events-none"
-            />
-            {/* Dashed outer ring */}
-            <div className="absolute inset-0 rounded-full border border-dashed border-accent/30 pointer-events-none" />
-            {/* Inner soft ring */}
-            <div className="absolute inset-3 rounded-full border border-accent/20 pointer-events-none" />
-            {/* Avatar */}
-            <motion.div
-              whileHover={{ scale: 1.04 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="absolute inset-6 rounded-full overflow-hidden border-2 border-accent
-                         bg-navy-light shadow-[0_0_60px_rgba(56,189,248,0.45)]"
+              animate={{ x: ['0%', '-50%'] }}
+              transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+              className="flex items-center gap-3 w-max whitespace-nowrap"
             >
-              <img
-                src={profile.avatar}
-                alt={profile.name}
-                className="w-full h-full object-cover"
-              />
+              {[...KEYWORDS, ...KEYWORDS].map((k, i) => (
+                <span key={i} className="flex items-center gap-3">
+                  <span className="text-[0.7rem] sm:text-xs font-mono uppercase tracking-wider text-slate">
+                    {k}
+                  </span>
+                  <span className="text-accent/50 text-xs">·</span>
+                </span>
+              ))}
             </motion.div>
           </div>
-        </motion.div>
 
+          {/* Big bold bio — words brighten one after another (reading focus) */}
+          <motion.p
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            className="text-lg sm:text-xl md:text-2xl font-display font-bold leading-relaxed flex flex-wrap gap-x-[0.3em]"
+          >
+            {BIO_WORDS.map(([word, accent], i) => (
+              <motion.span
+                key={i}
+                variants={wordVariants}
+                className={accent ? 'text-accent' : 'text-slate-lightest'}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.p>
+
+          {/* Education line */}
+          <p className="mt-6 text-sm font-mono text-slate">
+            🎓 B.Tech CSE · Presidency University, Bengaluru · 8.01 CGPA
+          </p>
+        </motion.div>
       </div>
 
-      {/* Three stat cards — full-width row below */}
-      <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
-        {STATS.map((stat, i) => (
-          <SpotlightCard
-            key={stat.label}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.5, delay: i * 0.1 }}
-            whileHover={{ y: -4 }}
-            className="group bg-navy-light border border-slate-dark/30 rounded-xl
-                       p-5 sm:p-6 hover:border-accent transition-all duration-300
-                       hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-11 h-11 rounded-lg bg-accent/10 border border-accent/30
-                              flex items-center justify-center text-accent
+      {/* What I do — highlight cards (fills the section) */}
+      <div className="mt-14 md:mt-20">
+        <p className="eyebrow mb-6 text-center lg:text-left">What I Do</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {HIGHLIGHTS.map((h, i) => (
+            <SpotlightCard
+              key={h.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              whileHover={{ y: -4 }}
+              className="group bg-navy-light border border-slate-dark/30 rounded-xl p-5 sm:p-6
+                         hover:border-accent transition-all duration-300
+                         hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]"
+            >
+              <div className="w-11 h-11 rounded-lg bg-accent/10 border border-accent/20
+                              flex items-center justify-center text-accent mb-4
                               group-hover:bg-accent/20 transition-colors">
-                <stat.Icon size={20} />
+                <h.Icon size={20} />
               </div>
-              <div className="text-3xl md:text-4xl font-display font-extrabold text-accent">
-                <AnimatedNumber value={stat.value} suffix={stat.suffix} />
-              </div>
-            </div>
-            <p className="text-xs font-mono uppercase tracking-widest text-slate-light mb-1">
-              {stat.label}
-            </p>
-            <p className="text-sm text-slate leading-relaxed">
-              {stat.sub}
-            </p>
-          </SpotlightCard>
-        ))}
+              <h3 className="text-base md:text-lg font-display font-bold text-slate-lightest mb-1.5">
+                {h.title}
+              </h3>
+              <p className="text-sm text-slate leading-relaxed">{h.desc}</p>
+            </SpotlightCard>
+          ))}
+        </div>
       </div>
     </section>
   );

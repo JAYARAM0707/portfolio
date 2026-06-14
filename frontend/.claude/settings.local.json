@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "WebFetch(domain:vaibhav-create.vercel.app)",
+      "Bash(node -e \"import\\('lucide-react'\\).then\\(m => { ['Play','Pause','Volume2','VolumeX'].forEach\\(n => console.log\\(n, typeof m[n]\\)\\); }\\)\")"
     ]
   }
 }

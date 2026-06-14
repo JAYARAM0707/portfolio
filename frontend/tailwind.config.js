@@ -33,6 +33,7 @@ export default {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         display: ['Plus Jakarta Sans', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+        signature: ['Caveat', 'cursive'],
       },
 
       fontSize: {

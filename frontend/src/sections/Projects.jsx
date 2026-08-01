@@ -22,7 +22,7 @@ function ProjectCard({ project, index }) {
       {/* Red gradient top bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-accent/60 to-transparent" />
 
-      <div className="p-6 sm:p-8 md:p-10">
+      <div className="p-6 sm:p-8 lg:p-7 xl:p-8">
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
@@ -68,14 +68,14 @@ function ProjectCard({ project, index }) {
         </div>
 
         {/* Description */}
-        <p className="mt-6 sm:mt-8 text-sm sm:text-base text-slate-light leading-relaxed max-w-3xl">
+        <p className="mt-4 lg:mt-5 text-sm sm:text-base text-slate-light leading-relaxed max-w-3xl">
           {project.description}
         </p>
 
         {/* Contributions */}
-        <div className="mt-8">
-          <p className="eyebrow mb-4">My Contributions</p>
-          <ul className="space-y-3">
+        <div className="mt-5">
+          <p className="eyebrow mb-3">My Contributions</p>
+          <ul className="space-y-2">
             {project.contributions.map((c, i) => (
               <motion.li
                 key={i}
@@ -95,7 +95,7 @@ function ProjectCard({ project, index }) {
         </div>
 
         {/* Tech chips */}
-        <div className="mt-8 flex flex-wrap gap-2">
+        <div className="mt-5 flex flex-wrap gap-2">
           {project.tech.map((tech, i) => (
             <motion.span
               key={tech}
@@ -125,7 +125,7 @@ function Projects() {
   return (
     <section
       id="projects"
-      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
+      className="relative section-padding container-max min-h-screen lg:min-h-full lg:h-full flex flex-col justify-center py-20 lg:py-6"
     >
       <SectionBackground />
       <MessageCard
@@ -140,7 +140,7 @@ function Projects() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-14 md:mb-16"
+        className="text-center mb-6 lg:mb-8"
       >
         <p className="eyebrow mb-3">Projects</p>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-lightest">
@@ -158,12 +158,12 @@ function Projects() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.5, delay: 0.8 }}
-        className="max-w-3xl mx-auto mt-12 bg-navy-light/50 border-2 border-dashed
-                   border-slate-dark/40 rounded-xl p-6 sm:p-8 text-center
+        className="max-w-3xl mx-auto mt-5 lg:mt-6 bg-navy-light/50 border-2 border-dashed
+                   border-slate-dark/40 rounded-xl p-4 sm:p-5 text-center
                    hover:border-accent/40 transition-colors"
       >
-        <Sparkles size={32} className="text-accent/60 mx-auto mb-3" />
-        <h3 className="font-display font-bold text-xl text-slate-lightest mb-2">
+        <Sparkles size={26} className="text-accent/60 mx-auto mb-2" />
+        <h3 className="font-display font-bold text-lg text-slate-lightest mb-1.5">
           More projects coming soon
         </h3>
         <p className="text-sm text-slate max-w-md mx-auto">
@@ -174,7 +174,7 @@ function Projects() {
           href={GITHUB_URL}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 rounded-lg
+          className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg
                      border border-accent text-accent font-mono text-sm
                      hover:bg-accent/10 transition-colors duration-300"
         >

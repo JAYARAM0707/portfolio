@@ -4,10 +4,10 @@ import { profile } from '../data/profile';
 
 // Floating language logos around the phone.
 const FLOATING_TECH = [
-  { name: 'React',        slug: 'react',       color: '61DAFB', pos: '-top-4 -left-8 sm:-left-12' },
-  { name: 'JavaScript',   slug: 'javascript',  color: 'F7DF1E', pos: 'top-1/3 -right-8 sm:-right-12' },
-  { name: 'Python',       slug: 'python',      color: '3776AB', pos: '-bottom-4 -left-6 sm:-left-10' },
-  { name: 'Tailwind CSS', slug: 'tailwindcss', color: '06B6D4', pos: 'bottom-1/4 -right-6 sm:-right-10' },
+  { name: 'React',        slug: 'react',       color: '61DAFB', pos: '-top-3 -left-4 sm:-left-6' },
+  { name: 'JavaScript',   slug: 'javascript',  color: 'F7DF1E', pos: 'top-1/3 -right-4 sm:-right-6' },
+  { name: 'Python',       slug: 'python',      color: '3776AB', pos: '-bottom-3 -left-3 sm:-left-5' },
+  { name: 'Tailwind CSS', slug: 'tailwindcss', color: '06B6D4', pos: 'bottom-1/4 -right-3 sm:-right-5' },
 ];
 
 // Generic "what I do" rows — no company/product names (safe to display).
@@ -28,7 +28,7 @@ function PhoneMockup() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.2 }}
       style={{ perspective: 1200 }}
-      className="relative w-44 h-[23rem] sm:w-52 sm:h-[27rem] md:w-60 md:h-[31rem] lg:w-72 lg:h-[34rem] mx-auto my-2"
+      className="relative w-44 h-[23rem] sm:w-52 sm:h-[27rem] md:w-56 md:h-[28rem] lg:w-60 lg:h-[28rem] mx-auto my-2"
     >
       {/* Soft accent glow behind the phone */}
       <motion.div

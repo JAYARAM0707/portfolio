@@ -83,7 +83,7 @@ function Skills() {
   return (
     <section
       id="skills"
-      className="relative section-padding container-max py-24 md:py-32"
+      className="relative section-padding container-max min-h-screen lg:min-h-full lg:h-full flex flex-col justify-center py-20 lg:py-6"
     >
       <SectionBackground orbOpacity={0.22} />
 
@@ -92,7 +92,7 @@ function Skills() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.6 }}
-        className="mb-10 md:mb-12"
+        className="mb-5 lg:mb-7"
       >
         <p className="eyebrow">Skills</p>
       </motion.div>

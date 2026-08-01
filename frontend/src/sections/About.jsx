@@ -1,47 +1,12 @@
 import { motion } from 'framer-motion';
-import { Smartphone, Sparkles, Radio, Code2 } from 'lucide-react';
 import SectionBackground from '../components/SectionBackground';
-import SpotlightCard from '../components/SpotlightCard';
 import { Github, Linkedin, Instagram } from '../components/SocialIcons';
 import { profile } from '../data/profile';
 
-const HIGHLIGHTS = [
-  {
-    Icon: Smartphone,
-    title: 'Mobile Development',
-    desc: 'Cross-platform iOS & Android apps with React Native, shipped to production.',
-  },
-  {
-    Icon: Sparkles,
-    title: 'AI Integration',
-    desc: 'GPT-4 APIs and AI-IVR systems for intelligent, automated experiences.',
-  },
-  {
-    Icon: Radio,
-    title: 'Real-time Systems',
-    desc: 'VoIP calling, email sync, push notifications and calendar modules.',
-  },
-  {
-    Icon: Code2,
-    title: 'Clean Engineering',
-    desc: 'Pixel-perfect Figma-to-code, Redux state management, smooth UX.',
-  },
-];
-
 const KEYWORDS = [
-  'Mobile Developer',
-  'React Native',
-  'iOS',
-  'Android',
-  'JavaScript',
-  'Python',
-  'SQL',
-  'AI Integration',
-  'GPT-4',
-  'VoIP',
-  'Redux Toolkit',
-  'Figma to Code',
-  'Problem Solver',
+  'Mobile Developer', 'React Native', 'iOS', 'Android', 'JavaScript',
+  'Python', 'SQL', 'AI Integration', 'GPT-4', 'VoIP', 'Redux Toolkit',
+  'Figma to Code', 'Problem Solver',
 ];
 
 // Bio as words, with accent flags. Each word brightens in sequence (reading focus).
@@ -53,14 +18,14 @@ const BIO_WORDS = [
   ['apps,', 0], ['integrate', 0], ['GPT-4,', 1], ['and', 0], ['build', 0],
   ['real-time', 0], ['VoIP', 0], ['&', 0], ['calendar', 0], ['features', 0],
   ['with', 0], ['pixel-perfect', 0], ['UI.', 0],
-  ['I', 0], ['translate', 0], ['complex', 0], ['Figma', 0], ['designs', 0],
+  ['I', 0], ['turn', 0], ['complex', 0], ['Figma', 0], ['designs', 0],
   ['into', 0], ['responsive', 0], ['screens', 0], ['and', 0], ['care', 0],
   ['about', 0], ['clean,', 0], ['maintainable', 0], ['code.', 0],
 ];
 
 const containerVariants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.045 } },
+  visible: { transition: { staggerChildren: 0.04 } },
 };
 const wordVariants = {
   hidden: { opacity: 0.15 },
@@ -77,13 +42,13 @@ function About() {
   return (
     <section
       id="about"
-      className="relative section-padding container-max py-24 md:py-32"
+      className="relative section-padding container-max min-h-screen lg:min-h-full lg:h-full flex flex-col justify-center py-20 lg:py-6"
     >
       <SectionBackground />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[18rem_minmax(0,1fr)] gap-10 lg:gap-14 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-[18rem_minmax(0,1fr)] gap-8 lg:gap-14 items-center">
 
-        {/* LEFT — portrait + signature + socials */}
+        {/* LEFT — portrait + socials */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -91,7 +56,7 @@ function About() {
           transition={{ duration: 0.7 }}
           className="flex flex-col items-center lg:items-start"
         >
-          <div className="relative w-60 h-80 sm:w-72 sm:h-[26rem] rounded-3xl overflow-hidden
+          <div className="relative w-56 h-72 sm:w-64 sm:h-[24rem] rounded-3xl overflow-hidden
                           border border-slate-dark/40 bg-navy-light shadow-2xl shadow-accent/10">
             <img
               src={profile.photo || profile.avatar}
@@ -101,7 +66,6 @@ function About() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
 
-          {/* Social icons */}
           <div className="flex items-center gap-2 mt-5">
             {socials.map(({ name, href, Icon }) => (
               <a
@@ -130,9 +94,8 @@ function About() {
         >
           <p className="eyebrow mb-4">Who I Am</p>
 
-          {/* Keyword tags — single-line horizontal marquee */}
+          {/* Keyword marquee */}
           <div className="relative overflow-hidden mb-6 w-full">
-            {/* edge fades */}
             <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-navy to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-navy to-transparent z-10 pointer-events-none" />
             <motion.div
@@ -151,7 +114,7 @@ function About() {
             </motion.div>
           </div>
 
-          {/* Big bold bio — words brighten one after another (reading focus) */}
+          {/* Reading-focus bio */}
           <motion.p
             variants={containerVariants}
             initial="hidden"
@@ -175,36 +138,6 @@ function About() {
             🎓 B.Tech CSE · Presidency University, Bengaluru · 8.01 CGPA
           </p>
         </motion.div>
-      </div>
-
-      {/* What I do — highlight cards (fills the section) */}
-      <div className="mt-14 md:mt-20">
-        <p className="eyebrow mb-6 text-center lg:text-left">What I Do</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {HIGHLIGHTS.map((h, i) => (
-            <SpotlightCard
-              key={h.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -4 }}
-              className="group bg-navy-light border border-slate-dark/30 rounded-xl p-5 sm:p-6
-                         hover:border-accent transition-all duration-300
-                         hover:shadow-[0_0_25px_rgba(56,189,248,0.15)]"
-            >
-              <div className="w-11 h-11 rounded-lg bg-accent/10 border border-accent/20
-                              flex items-center justify-center text-accent mb-4
-                              group-hover:bg-accent/20 transition-colors">
-                <h.Icon size={20} />
-              </div>
-              <h3 className="text-base md:text-lg font-display font-bold text-slate-lightest mb-1.5">
-                {h.title}
-              </h3>
-              <p className="text-sm text-slate leading-relaxed">{h.desc}</p>
-            </SpotlightCard>
-          ))}
-        </div>
       </div>
     </section>
   );

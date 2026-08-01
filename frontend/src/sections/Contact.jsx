@@ -115,7 +115,7 @@ function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden section-padding container-max py-24 md:py-32"
+      className="relative section-padding container-max min-h-screen lg:min-h-full lg:h-full flex flex-col justify-center py-20 lg:py-6"
     >
       <SectionBackground />
       <ChatbotBubble style={{ top: '12%', right: '10%' }} className="hidden md:block" />
@@ -125,10 +125,10 @@ function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-12 md:mb-16"
+        className="text-center mb-6 lg:mb-8"
       >
         <p className="eyebrow mb-3">Get in Touch</p>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-lightest mb-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-lightest mb-3">
           Let's build something <span className="text-accent">together</span>
         </h2>
         <p className="text-base md:text-lg text-slate-light max-w-2xl mx-auto">
@@ -239,7 +239,7 @@ function Contact() {
                 transition={{ duration: 0.3 }}
                 onSubmit={handleSubmit}
                 noValidate
-                className="space-y-5"
+                className="space-y-4"
               >
                 <div>
                   <label htmlFor="name" className={labelCls}>Your Name</label>
@@ -297,7 +297,7 @@ function Contact() {
                   <textarea
                     id="message"
                     name="message"
-                    rows={5}
+                    rows={4}
                     placeholder="Tell me about your project, role, or just say hi..."
                     value={formData.message}
                     onChange={handleChange}

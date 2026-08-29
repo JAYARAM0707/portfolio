@@ -1,187 +1,208 @@
-import { motion } from 'framer-motion';
-import { Star, Sparkles, ArrowUpRight, Lock } from 'lucide-react';
+import { useRef, useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { Lock, ArrowUpRight } from 'lucide-react';
+import { Github } from '../components/SocialIcons';
 import { projects } from '../data/projects';
-import TiltedCard from '../components/TiltedCard';
-import SectionBackground from '../components/SectionBackground';
-import { MessageCard } from '../components/SectionMockup';
+import { EASE_OUT } from '../lib/anim';
 
 const GITHUB_URL = 'https://github.com/JAYARAM0707';
 
-function ProjectCard({ project, index }) {
+/* ── Panel content (pure JSX - no hooks) ─────────────────────────────────── */
+function PanelContent({ project, index }) {
   return (
-    <TiltedCard
-      maxTilt={6}
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.7, delay: index * 0.15 }}
-      className="relative max-w-5xl mx-auto bg-navy-light border border-slate-dark/30 rounded-2xl
-                 overflow-hidden hover:border-accent transition-colors duration-500
-                 hover:shadow-[0_0_30px_rgba(56,189,248,0.15)]"
-    >
-      {/* Red gradient top bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-accent/60 to-transparent" />
+    <div className="w-full container-max section-padding relative">
+      {/* Giant ghost index */}
+      <span
+        aria-hidden
+        className="ghost-word hidden lg:block right-2 top-1/2 -translate-y-1/2 text-[20rem] xl:text-[26rem]"
+      >
+        0{index + 1}
+      </span>
 
-      <div className="p-6 sm:p-8 lg:p-7 xl:p-8">
-        {/* Header */}
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="min-w-0">
-            {project.featured && (
-              <span className="inline-flex items-center gap-1.5 bg-accent/10 border border-accent/40
-                               text-accent text-xs font-mono uppercase tracking-wider px-3 py-1
-                               rounded-full mb-4">
-                <Star size={12} className="fill-accent" />
-                Featured
-              </span>
-            )}
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-extrabold
-                           text-slate-lightest leading-tight">
-              {project.title}
-            </h3>
-            <p className="text-base sm:text-lg text-slate-light mt-2">
-              {project.tagline}
-            </p>
-            {project.company && (
-              <p className="text-sm text-slate mt-1 font-mono">
-                @ {project.company}
-              </p>
-            )}
-          </div>
-
-          {/* Right meta — visible at lg+ */}
-          <div className="hidden lg:flex flex-col items-end gap-2 shrink-0">
-            <span className="bg-navy border border-accent/40 px-3 py-1.5 rounded-full
-                             text-xs font-mono text-slate-lightest flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
-              </span>
-              {project.status}
+      <div className="relative z-10 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* LEFT - identity */}
+        <div className="lg:col-span-7">
+          <div className="flex flex-wrap items-center gap-3 mb-5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10
+                             px-3 py-1 text-xs font-mono uppercase tracking-wider text-accent">
+              {project.featured && '★ '}{project.status}
             </span>
             {project.repoVisibility === 'private' && (
-              <span className="flex items-center gap-1.5 text-xs text-slate font-mono">
-                <Lock size={12} />
-                Private Repo
+              <span className="flex items-center gap-1.5 text-xs font-mono text-slate">
+                <Lock size={11} /> Private repo
               </span>
             )}
           </div>
+
+          <h3 className="font-display font-black uppercase leading-[0.9] tracking-tight text-slate-lightest
+                         text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-6xl">
+            {project.title}
+          </h3>
+
+          <p className="mt-5 text-lg sm:text-xl text-accent max-w-xl">{project.tagline}</p>
+
+          <div className="mt-7 flex flex-wrap gap-3">
+            {project.liveUrl && (
+              <a href={project.liveUrl} target="_blank" rel="noreferrer" className="btn-primary">
+                Live Demo <ArrowUpRight size={16} />
+              </a>
+            )}
+            <a href={project.repoUrl || GITHUB_URL} target="_blank" rel="noreferrer" className="btn-outline">
+              <Github size={16} /> {project.repoVisibility === 'private' ? 'GitHub' : 'View Code'}
+            </a>
+          </div>
         </div>
 
-        {/* Description */}
-        <p className="mt-4 lg:mt-5 text-sm sm:text-base text-slate-light leading-relaxed max-w-3xl">
-          {project.description}
-        </p>
+        {/* RIGHT - detail */}
+        <div className="lg:col-span-5">
+          <p className="text-sm sm:text-base text-slate-light leading-relaxed">
+            {project.description}
+          </p>
 
-        {/* Contributions */}
-        <div className="mt-5">
-          <p className="eyebrow mb-3">My Contributions</p>
-          <ul className="space-y-2">
+          <ul className="mt-6 space-y-2.5">
             {project.contributions.map((c, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                className="flex gap-3"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
-                <span className="text-sm sm:text-base text-slate-light leading-relaxed">
-                  {c}
-                </span>
-              </motion.li>
+              <li key={i} className="flex gap-3 text-sm text-slate-light leading-relaxed">
+                <span className="mt-2 h-1 w-1 rounded-full bg-accent shrink-0" />
+                <span>{c}</span>
+              </li>
             ))}
           </ul>
-        </div>
 
-        {/* Tech chips */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {project.tech.map((tech, i) => (
-            <motion.span
-              key={tech}
-              initial={{ opacity: 0, scale: 0.85 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.35,
-                delay: 0.6 + i * 0.04,
-                type: 'spring',
-                stiffness: 220,
-              }}
-              className="bg-navy border border-slate-dark/40 rounded-md px-3 py-1.5
-                         text-xs font-mono text-slate-light
-                         hover:border-accent hover:text-accent transition-colors duration-300"
-            >
-              {tech}
-            </motion.span>
-          ))}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {project.tech.map((t) => (
+              <span key={t} className="rounded-md border border-slate-dark/40 px-2.5 py-1 text-[0.7rem] font-mono text-slate">
+                {t}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
-    </TiltedCard>
+    </div>
+  );
+}
+
+/* ── Desktop pinned deck - scroll drives the active panel, AnimatePresence
+      slides between them (robust: no out-of-range scroll transforms). ─────── */
+function ProjectsDeck() {
+  const ref = useRef(null);
+  const n = projects.length;
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] });
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const unsub = scrollYProgress.on('change', (v) => {
+      const idx = Math.min(n - 1, Math.max(0, Math.floor(v * n - 1e-6)));
+      setActive((prev) => (prev === idx ? prev : idx));
+    });
+    return () => unsub();
+  }, [scrollYProgress, n]);
+
+  // Progress bar width - input & output both within [0,1] (WAAPI-safe).
+  const barScaleX = useTransform(scrollYProgress, [0, 1], [1 / n, 1]);
+
+  const project = projects[active];
+
+  return (
+    <div ref={ref} style={{ height: `${n * 100}vh` }} className="relative">
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+        {/* ambient depth */}
+        <div aria-hidden className="absolute inset-0 bg-grid-fine opacity-40 mask-fade-edges" />
+        <div aria-hidden className="absolute top-1/4 -right-20 w-[42rem] h-[42rem] rounded-full bg-accent/10 blur-[140px] pointer-events-none" />
+
+        {/* header row - reserved top zone so panel content never overlaps it */}
+        <div className="absolute top-0 inset-x-0 z-30 container-max section-padding pt-24 flex items-center justify-between">
+          <span className="eyebrow">Selected Work</span>
+          <span className="font-mono text-sm text-slate tracking-widest">
+            <span className="text-accent">0{active + 1}</span>
+            <span className="text-slate-dark"> / 0{n}</span>
+          </span>
+        </div>
+
+        {/* active panel - inset below the header, above the progress bar */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -60 }}
+            transition={{ duration: 0.5, ease: EASE_OUT }}
+            className="absolute inset-x-0 top-32 bottom-12 z-10 flex items-center"
+          >
+            <PanelContent project={project} index={active} />
+          </motion.div>
+        </AnimatePresence>
+
+        {/* progress bar */}
+        <div className="absolute bottom-0 inset-x-0 z-20 h-[3px] bg-slate-dark/25">
+          <motion.div style={{ scaleX: barScaleX }} className="h-full bg-accent origin-left" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Mobile / tablet - clean stacked cards ───────────────────────────────── */
+function ProjectsMobile() {
+  return (
+    <div className="section-padding container-max py-20">
+      <p className="eyebrow mb-4">Selected Work</p>
+      <h2 className="font-display font-black uppercase tracking-tight leading-[0.9] text-4xl sm:text-5xl text-slate-lightest mb-10">
+        Featured <span className="text-outline">work</span>
+      </h2>
+
+      <div className="space-y-6">
+        {projects.map((project, i) => (
+          <motion.article
+            key={project.id}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.6, delay: i * 0.08, ease: EASE_OUT }}
+            className="rounded-2xl border border-slate-dark/40 bg-navy-light/40 p-6 sm:p-7"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className="inline-flex items-center gap-2 rounded-full border border-accent/40 bg-accent/10
+                               px-3 py-1 text-[0.7rem] font-mono uppercase tracking-wider text-accent">
+                {project.status}
+              </span>
+              <span className="font-display text-3xl font-light text-accent/25">0{i + 1}</span>
+            </div>
+            <h3 className="font-display font-bold text-2xl text-slate-lightest leading-tight">{project.title}</h3>
+            <p className="text-accent mt-1.5">{project.tagline}</p>
+            <p className="mt-4 text-sm text-slate-light leading-relaxed">{project.description}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {project.tech.map((t) => (
+                <span key={t} className="rounded-md border border-slate-dark/40 px-2.5 py-1 text-[0.7rem] font-mono text-slate">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </motion.article>
+        ))}
+      </div>
+
+      <a
+        href={GITHUB_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="group mt-8 inline-flex items-center gap-2 font-mono text-sm text-slate-light hover:text-accent transition-colors"
+      >
+        More on GitHub
+        <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+      </a>
+    </div>
   );
 }
 
 function Projects() {
   return (
-    <section
-      id="projects"
-      className="relative section-padding container-max min-h-screen lg:min-h-full lg:h-full flex flex-col justify-center py-20 lg:py-6"
-    >
-      <SectionBackground />
-      <MessageCard
-        style={{ top: '12%', right: '8%' }}
-        name="App Store"
-        text="3+ apps shipped ✓"
-        className="hidden md:block"
-      />
-
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-6 lg:mb-8"
-      >
-        <p className="eyebrow mb-3">Projects</p>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-lightest">
-          Featured work I've <span className="text-accent">shipped</span>
-        </h2>
-      </motion.div>
-
-      {projects.map((project, i) => (
-        <ProjectCard key={project.id} project={project} index={i} />
-      ))}
-
-      {/* "More coming soon" placeholder */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-50px' }}
-        transition={{ duration: 0.5, delay: 0.8 }}
-        className="max-w-3xl mx-auto mt-5 lg:mt-6 bg-navy-light/50 border-2 border-dashed
-                   border-slate-dark/40 rounded-xl p-4 sm:p-5 text-center
-                   hover:border-accent/40 transition-colors"
-      >
-        <Sparkles size={26} className="text-accent/60 mx-auto mb-2" />
-        <h3 className="font-display font-bold text-lg text-slate-lightest mb-1.5">
-          More projects coming soon
-        </h3>
-        <p className="text-sm text-slate max-w-md mx-auto">
-          Currently building open-source experiments and documenting my
-          learning journey on GitHub. Check back for new projects.
-        </p>
-        <a
-          href={GITHUB_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 mt-4 px-5 py-2.5 rounded-lg
-                     border border-accent text-accent font-mono text-sm
-                     hover:bg-accent/10 transition-colors duration-300"
-        >
-          View My GitHub
-          <ArrowUpRight size={16} />
-        </a>
-      </motion.div>
+    <section id="projects" className="relative">
+      <div className="hidden lg:block">
+        <ProjectsDeck />
+      </div>
+      <div className="lg:hidden">
+        <ProjectsMobile />
+      </div>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-// CinematicLayer — lightweight floating bokeh particles on a transparent canvas.
+// CinematicLayer - lightweight floating bokeh particles on a transparent canvas.
 // Sky-blue + white glowing dots, additive blending, slow sine-wave drift, and
 // subtle mouse parallax. Pure 2D canvas (no Three.js); a single rAF loop with
 // full cleanup, density scaled to viewport, and reduced-motion respected.
@@ -14,7 +14,7 @@ export default function CinematicLayer({ className = '' }) {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-    // sky-400, white, sky-500 — matches the site's sky-blue accent.
+    // sky-400, white, sky-500 - matches the site's sky-blue accent.
     const COLORS = ['56,189,248', '255,255,255', '14,165,233'];
 
     let width = 0;

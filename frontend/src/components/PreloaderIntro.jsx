@@ -129,7 +129,7 @@ function PreloaderIntro({ onComplete }) {
               <Cube3D />
             </motion.div>
 
-            {/* Welcome text — two lines */}
+            {/* Welcome text - two lines */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

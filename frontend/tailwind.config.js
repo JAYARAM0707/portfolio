@@ -34,6 +34,8 @@ export default {
         display: ['Plus Jakarta Sans', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
         signature: ['Caveat', 'cursive'],
+        // Editorial serif — used only by the Skills header (.display-title).
+        fraunces: ['Fraunces', 'Georgia', 'serif'],
       },
 
       fontSize: {
@@ -101,7 +103,7 @@ export default {
 
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-gradient': 'linear-gradient(135deg, #0a0a0a 0%, #1a0000 100%)',
+        'hero-gradient': 'linear-gradient(135deg, #0a0a0a 0%, #0b1620 100%)',
         'shimmer-gradient': 'linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.25), transparent)',
       },
     },

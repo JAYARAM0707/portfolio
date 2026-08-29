@@ -30,7 +30,7 @@ function Navbar({ forceHidden = false }) {
   const activeId = useScrollSpy(sectionIds);
 
   // Navbar is hidden ONLY over the video intro (forceHidden). It stays visible
-  // on every other section — no hide-on-scroll-down behaviour.
+  // on every other section - no hide-on-scroll-down behaviour.
   const hidden = forceHidden;
 
   useEffect(() => {
@@ -117,7 +117,7 @@ function Navbar({ forceHidden = false }) {
 
             {/* RIGHT: one cluster, conditionally shows items by breakpoint */}
             <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
-              {/* Socials — tablet+ only */}
+              {/* Socials - tablet+ only */}
               <div className="hidden md:flex items-center gap-0.5">
                 {socialLinks.map(({ name, href, Icon }) => (
                   <a
@@ -133,7 +133,7 @@ function Navbar({ forceHidden = false }) {
                 ))}
               </div>
 
-              {/* Theme toggle — always visible */}
+              {/* Theme toggle - always visible */}
               <button
                 onClick={toggle}
                 aria-label="Toggle theme"
@@ -153,7 +153,7 @@ function Navbar({ forceHidden = false }) {
                 </AnimatePresence>
               </button>
 
-              {/* Hamburger — below lg only */}
+              {/* Hamburger - below lg only */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label="Toggle menu"

@@ -1,6 +1,6 @@
 // frontend/src/components/VideoHero.jsx
 //
-// VideoHero — the cinematic video as the FIRST section of the page.
+// VideoHero - the cinematic video as the FIRST section of the page.
 //
 // Layers (back → front):
 //   1. Blurred, scaled, looping copy of the video → ambient depth
@@ -103,7 +103,7 @@ export default function VideoHero() {
       transition={{ duration: 1.2, ease: "easeOut" }}
       className="relative h-screen w-full overflow-hidden bg-black"
     >
-      {/* 1 — Blurred ambient background copy (muted, looping) */}
+      {/* 1 - Blurred ambient background copy (muted, looping) */}
       <video
         src="/portfolio-intro.mp4"
         className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl opacity-50"
@@ -114,7 +114,7 @@ export default function VideoHero() {
         aria-hidden
       />
 
-      {/* 2 — Sharp foreground video */}
+      {/* 2 - Sharp foreground video */}
       <video
         ref={videoRef}
         src="/portfolio-intro.mp4"
@@ -128,14 +128,14 @@ export default function VideoHero() {
         }}
       />
 
-      {/* 3 — Floating sky-blue bokeh particles */}
+      {/* 3 - Floating sky-blue bokeh particles */}
       <CinematicLayer />
 
-      {/* 4 — Cinematic grading */}
+      {/* 4 - Cinematic grading */}
       <div className="pointer-events-none absolute inset-0 bg-radial-vignette" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40" />
 
-      {/* Center play button — appears when the video has ended / is paused */}
+      {/* Center play button - appears when the video has ended / is paused */}
       {(ended || !isPlaying) && (
         <motion.button
           initial={{ scale: 0.8, opacity: 0 }}
@@ -152,7 +152,7 @@ export default function VideoHero() {
         </motion.button>
       )}
 
-      {/* 5 — Landing content with staggered entrance */}
+      {/* 5 - Landing content with staggered entrance */}
       <motion.div
         variants={container}
         initial="hidden"
@@ -180,9 +180,9 @@ export default function VideoHero() {
         </motion.p>
       </motion.div>
 
-      {/* 6 — Controls (glassmorphism): pause (while playing) + mute */}
+      {/* 6 - Controls (glassmorphism): pause (while playing) + mute */}
       <div className="absolute bottom-6 right-6 z-20 flex items-center gap-2 sm:bottom-10 sm:right-10">
-        {/* "Tap for sound" badge — pulses while muted, auto-hides */}
+        {/* "Tap for sound" badge - pulses while muted, auto-hides */}
         {showSoundHint && (
           <motion.button
             onClick={toggleMute}
@@ -221,7 +221,7 @@ export default function VideoHero() {
         </button>
       </div>
 
-      {/* 5 — Scroll indicator: animated vertical pulse line, click to enter site */}
+      {/* 5 - Scroll indicator: animated vertical pulse line, click to enter site */}
       <button
         onClick={scrollToSite}
         aria-label="Scroll to portfolio"

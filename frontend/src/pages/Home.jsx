@@ -20,7 +20,7 @@ function Home() {
   // then auto-hides ~2.5s after scrolling stops.
   const [navVisible, setNavVisible] = useState(false);
 
-  // Buttery momentum scrolling (Lenis) — slow, premium, cinematic feel.
+  // Buttery momentum scrolling (Lenis) - slow, premium, cinematic feel.
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.25,
@@ -81,7 +81,7 @@ function Home() {
       <Navbar forceHidden={!navVisible} />
 
       <main>
-        {/* Section 0 — cinematic video intro (scroll past to enter the site) */}
+        {/* Section 0 - cinematic video intro (scroll past to enter the site) */}
         <VideoHero />
 
         {/* =========================== HERO =========================== */}
@@ -90,7 +90,7 @@ function Home() {
           id="home"
           className="relative overflow-hidden min-h-screen lg:min-h-full lg:h-full flex items-center pt-24 pb-12 sm:pt-28 sm:pb-16 lg:py-6"
         >
-          {/* Prism — 3D WebGL background accent */}
+          {/* Prism - 3D WebGL background accent */}
           <div className="absolute inset-0 pointer-events-none opacity-50">
             <Prism
               animationType="rotate"
@@ -111,7 +111,7 @@ function Home() {
           <div className="container-max section-padding w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 sm:gap-12 lg:gap-16 w-full">
 
-            {/* LEFT COLUMN — text (always first, incl. mobile) */}
+            {/* LEFT COLUMN - text (always first, incl. mobile) */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -128,19 +128,21 @@ function Home() {
                 Hi, I'm
               </motion.p>
 
-              {/* Name — single line */}
-              <h1 className="font-display font-extrabold text-slate-lightest text-[2rem] sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[4.25rem] leading-[1.05] tracking-tight mb-2 sm:mb-3 whitespace-nowrap">
-                Marni <span className="text-accent">Jayaram</span>
+              {/* Name - huge two-tone (solid + outlined), stacked */}
+              <h1 className="font-display font-black uppercase leading-[0.86] tracking-tight mb-3 sm:mb-4
+                             text-5xl sm:text-6xl md:text-7xl lg:text-6xl xl:text-7xl">
+                <span className="block text-slate-lightest">Marni</span>
+                <span className="block text-outline">Jayaram</span>
               </h1>
 
               {/* Role */}
-              <p className="font-display font-bold text-lg sm:text-2xl md:text-3xl text-slate-light mb-3 sm:mb-4">
+              <p className="font-mono uppercase tracking-[0.2em] text-sm sm:text-base text-slate-light mb-3 sm:mb-4">
                 Mobile App Developer
               </p>
 
               {/* Two separate availability banners (like the reference) */}
               <div className="flex flex-col sm:flex-row items-stretch justify-center lg:justify-start gap-3 mb-5 sm:mb-6 max-w-xl mx-auto lg:mx-0">
-                {/* Banner 1 — freelance & full-time */}
+                {/* Banner 1 - freelance & full-time */}
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -157,7 +159,7 @@ function Home() {
                   </p>
                 </motion.div>
 
-                {/* Banner 2 — available + location */}
+                {/* Banner 2 - available + location */}
                 <motion.div
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -179,7 +181,7 @@ function Home() {
                 </motion.div>
               </div>
 
-              {/* Tech badges — single line */}
+              {/* Tech badges - single line */}
               <div className="flex flex-wrap lg:flex-nowrap items-center justify-center lg:justify-start gap-1.5 mb-5 sm:mb-7">
                 {['React Native', 'JavaScript', 'Python', 'Tailwind', 'SQL'].map((t, i) => (
                   <motion.span
@@ -229,7 +231,7 @@ function Home() {
 
             </motion.div>
 
-            {/* RIGHT COLUMN — 3D phone mockup (visible on mobile + desktop) */}
+            {/* RIGHT COLUMN - 3D phone mockup (visible on mobile + desktop) */}
             <div className="order-2 flex items-center justify-center relative">
               <PhoneMockup />
             </div>
@@ -242,7 +244,7 @@ function Home() {
         <StackSection index={1} number="02" title="About"><About /></StackSection>
         <StackSection index={2} number="03" title="Skills"><Skills /></StackSection>
         <StackSection index={3} number="04" title="Experience"><Experience /></StackSection>
-        <StackSection index={4} number="05" title="Projects"><Projects /></StackSection>
+        <Projects />
         <StackSection index={5} number="06" title="Contact"><Contact /></StackSection>
       </main>
 

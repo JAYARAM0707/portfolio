@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Renderer, Triangle, Program, Mesh } from 'ogl';
 import './Prism.css';
 
-// React-Bits Prism — WebGL 3D prism via ogl. Used as a hero background accent.
+// React-Bits Prism - WebGL 3D prism via ogl. Used as a hero background accent.
 const Prism = ({
   height = 3.5,
   baseWidth = 5.5,

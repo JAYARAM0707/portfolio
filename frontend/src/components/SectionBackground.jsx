@@ -28,7 +28,7 @@ function SectionBackground({
         </div>
       )}
 
-      {/* Themed floating icons — bob + slow rotate */}
+      {/* Themed floating icons - bob + slow rotate */}
       {icons.map((it, i) => (
         <motion.div
           key={i}

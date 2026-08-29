@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 
 const EASE = [0.22, 1, 0.36, 1];
 
-// StackSection — slow, premium section reveal (matches the prompt's "slow,
+// StackSection - slow, premium section reveal (matches the prompt's "slow,
 // premium, smooth, immersive" motion). Each section gently fades + rises as it
-// enters the viewport. No sticky cards, no scroll-snap — just clean cinematic
+// enters the viewport. No sticky cards, no scroll-snap - just clean cinematic
 // scrolling driven by Lenis momentum at the page level.
 export default function StackSection({ children, number }) {
   return (

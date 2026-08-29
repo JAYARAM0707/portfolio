@@ -1,11 +1,12 @@
-// Single source of truth for personal info — used across Navbar, Hero, Footer, Contact.
+// Single source of truth for personal info - used across Navbar, Hero, Footer, Contact.
 export const profile = {
   name: 'Marni Jayaram',
   shortName: 'Marni',
   initials: 'MJ',
   role: 'Software Engineer',
   email: 'marnijayaram0707@gmail.com',
-  location: 'Bangalore, India',
+  phone: '+91 82770 86479',
+  location: 'Bengaluru, India',
   // Real photo for the About portrait. Drop your image at
   // frontend/public/profile.jpg (or change the path/name to match your file).
   photo: '/profile.png',

@@ -3,47 +3,47 @@
 @tailwind utilities;
 
 /* ============================================
-   Theme tokens — light is default, .dark flips
+   Theme tokens - light is default, .dark flips
    All values are "R G B" (no commas) so Tailwind can do `rgb(var(...) / <alpha>)`.
    ============================================ */
 @layer base {
   :root {
-    --bg-primary: 248 250 252;        /* page (slate-50) — soft cool off-white, not stark */
+    --bg-primary: 248 250 252;        /* page (slate-50) - soft cool off-white, not stark */
     --bg-secondary: 241 245 249;      /* cards (slate-100) */
     --bg-tertiary: 226 232 240;       /* elevated (slate-200) */
     --text-primary: 15 23 42;         /* headings (slate-900) */
     --text-secondary: 51 65 85;       /* body (slate-700) */
     --text-muted: 100 116 139;        /* secondary (slate-500) */
-    --border: 148 163 184;            /* slate-400 — visible at /30 */
-    --accent: 2 132 199;              /* sky-600 — professional blue on white */
+    --border: 148 163 184;            /* slate-400 - visible at /30 */
+    --accent: 2 132 199;              /* sky-600 - professional blue on white */
     --accent-hover: 3 105 161;        /* sky-700 */
   }
 
   .dark {
-    --bg-primary: 10 10 10;           /* near-black */
-    --bg-secondary: 20 10 10;         /* subtle red-tinged black */
-    --bg-tertiary: 38 10 10;
-    --text-primary: 245 245 245;
-    --text-secondary: 212 212 216;
-    --text-muted: 163 163 163;
-    --border: 64 64 64;
-    --accent: 56 189 248;             /* sky-400 — bright blue, pops on dark bg */
+    --bg-primary: 8 10 14;            /* near-black, faint cool tint (pairs with sky accent) */
+    --bg-secondary: 16 20 27;         /* elevated surface */
+    --bg-tertiary: 26 32 42;          /* highest surface */
+    --text-primary: 244 246 250;
+    --text-secondary: 197 205 218;
+    --text-muted: 138 148 163;
+    --border: 46 55 68;
+    --accent: 56 189 248;             /* sky-400 - bright blue, pops on dark bg */
     --accent-hover: 14 165 233;       /* sky-500 */
 
     color-scheme: dark;
   }
 
-  /* Scoped theme inversion — flips CSS vars so a child shows the OPPOSITE
+  /* Scoped theme inversion - flips CSS vars so a child shows the OPPOSITE
      palette of the page. Used inside the phone mockup so the phone screen
      always looks like the inverse of the site theme. */
   html:not(.dark) .theme-inverted {
-    --bg-primary: 10 10 10;
-    --bg-secondary: 20 10 10;
-    --bg-tertiary: 38 10 10;
-    --text-primary: 245 245 245;
-    --text-secondary: 212 212 216;
-    --text-muted: 163 163 163;
-    --border: 64 64 64;
+    --bg-primary: 8 10 14;
+    --bg-secondary: 16 20 27;
+    --bg-tertiary: 26 32 42;
+    --text-primary: 244 246 250;
+    --text-secondary: 197 205 218;
+    --text-muted: 138 148 163;
+    --border: 46 55 68;
     --accent: 56 189 248;
     --accent-hover: 14 165 233;
     color-scheme: dark;
@@ -61,7 +61,7 @@
     color-scheme: light;
   }
 
-  /* Lenis drives smooth momentum scrolling — let it manage scroll position. */
+  /* Lenis drives smooth momentum scrolling - let it manage scroll position. */
   html.lenis,
   html.lenis body {
     height: auto;
@@ -83,17 +83,13 @@
   #intro {
     min-height: 100svh;
   }
-  /* Each content section fills at least one screen → clean full-section scroll. */
-  main > div > section[id] {
-    min-height: 100svh;
-  }
 
   body {
     @apply font-sans antialiased bg-navy text-slate-lightest;
     transition: background-color 400ms ease, color 400ms ease;
     overflow-x: clip;
     width: 100%;
-    /* Subtle dot-grid background — adds depth without competing with content */
+    /* Subtle dot-grid background - adds depth without competing with content */
     background-image: radial-gradient(rgb(var(--text-muted) / 0.08) 1px, transparent 1px);
     background-size: 28px 28px;
   }
@@ -140,7 +136,7 @@
     @apply max-w-7xl mx-auto;
   }
 
-  /* Filled red button (primary CTA) */
+  /* Filled accent button (primary CTA) */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg;
     @apply bg-accent text-white font-semibold text-sm;
@@ -148,7 +144,7 @@
     @apply hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30;
   }
 
-  /* Outlined red button (secondary CTA) */
+  /* Outlined accent button (secondary CTA) */
   .btn-outline {
     @apply inline-flex items-center gap-2 px-6 py-3 rounded-lg;
     @apply border border-accent text-accent font-semibold text-sm;
@@ -181,6 +177,15 @@
     @apply font-mono text-accent text-xs md:text-sm tracking-[0.3em] uppercase font-semibold;
   }
 
+  /* Editorial section header - oversized serif statement (Skills header). */
+  .display-title {
+    font-family: 'Fraunces', Georgia, serif;
+    @apply font-medium text-slate-lightest;
+    font-optical-sizing: auto;
+    letter-spacing: -0.03em;
+    line-height: 0.98;
+  }
+
   .section-number {
     @apply font-mono text-accent text-sm md:text-base mr-2;
   }
@@ -202,14 +207,14 @@
    ============================================ */
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-accent to-red-900 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-accent to-accent-hover bg-clip-text text-transparent;
   }
 
   .glow-accent {
     text-shadow: 0 0 20px rgb(var(--accent) / 0.5);
   }
 
-  /* Glass effect — adapts to theme via bg-navy (which is white/black via CSS vars) */
+  /* Glass effect - adapts to theme via bg-navy (which is white/black via CSS vars) */
   .glass {
     background: rgb(var(--bg-primary) / 0.75);
     backdrop-filter: blur(12px);
@@ -222,10 +227,46 @@
   .hover-tilt:hover {
     transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) scale(1.02);
   }
+
+  /* Outlined (ghost) text - solid + outline two-tone name treatment. */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--accent) / 0.85);
+    text-stroke: 1.5px rgb(var(--accent) / 0.85);
+  }
+  .text-outline-muted {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--text-muted) / 0.5);
+    text-stroke: 1.5px rgb(var(--text-muted) / 0.5);
+  }
+
+  /* Giant faded ghost word for section backgrounds (reference signature). */
+  .ghost-word {
+    @apply pointer-events-none select-none absolute font-display font-extrabold uppercase
+           leading-none text-slate-lightest/[0.035] tracking-tight;
+  }
+  /* Near-white at 3.5% is invisible on the near-black bg - boost for dark mode. */
+  .dark .ghost-word {
+    color: rgb(var(--text-primary) / 0.07);
+  }
+
+  /* Fine editorial baseline grid - subtle structural texture, theme-aware. */
+  .bg-grid-fine {
+    background-image:
+      linear-gradient(to right, rgb(var(--text-muted) / 0.055) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--text-muted) / 0.055) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  /* Soft radial vignette that fades a texture toward the edges. */
+  .mask-fade-edges {
+    -webkit-mask-image: radial-gradient(ellipse at center, black 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse at center, black 55%, transparent 100%);
+  }
 }
 
 /* ──────────────────────────────────────────────────────────
-   Cinematic Intro — vignette effect for the video phase
+   Cinematic Intro - vignette effect for the video phase
    ────────────────────────────────────────────────────────── */
 .bg-radial-vignette {
   background: radial-gradient(

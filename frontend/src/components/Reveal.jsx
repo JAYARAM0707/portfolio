@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { EASE } from '../lib/anim';
 
-// Reveal — fade + rise as the element scrolls into view.
+// Reveal - fade + rise as the element scrolls into view.
 // Usage: <Reveal><h2>…</h2></Reveal>  or  <Reveal delay={0.1} className="…">…</Reveal>
 export function Reveal({
   children,

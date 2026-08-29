@@ -25,7 +25,7 @@ function FloatingFrame({ children, style, className = '', dur = 7, tilt = 8 }) {
   );
 }
 
-// AI chatbot bubble — 3D-tilted
+// AI chatbot bubble - 3D-tilted
 export function ChatbotBubble({ style, className = '' }) {
   return (
     <FloatingFrame style={style} className={`opacity-55 ${className}`} dur={6}>
@@ -50,7 +50,7 @@ export function ChatbotBubble({ style, className = '' }) {
   );
 }
 
-// Code editor window — 3D-tilted
+// Code editor window - 3D-tilted
 export function CodeWindow({ style, className = '' }) {
   return (
     <FloatingFrame style={style} className={`opacity-55 ${className}`} dur={7}>
@@ -79,7 +79,7 @@ export function CodeWindow({ style, className = '' }) {
   );
 }
 
-// Terminal output — 3D-tilted
+// Terminal output - 3D-tilted
 export function TerminalWindow({ style, className = '' }) {
   return (
     <FloatingFrame style={style} className={`opacity-55 ${className}`} dur={7.5}>
@@ -104,7 +104,7 @@ export function TerminalWindow({ style, className = '' }) {
   );
 }
 
-// Message/notification card — 3D-tilted
+// Message/notification card - 3D-tilted
 export function MessageCard({ style, className = '', name = 'GitHub', text = 'PR #42 merged ✓' }) {
   return (
     <FloatingFrame style={style} className={`opacity-55 ${className}`} dur={6.5}>
@@ -126,7 +126,7 @@ export function MessageCard({ style, className = '', name = 'GitHub', text = 'PR
   );
 }
 
-// 🆕 Mini 3D phone with app-grid screen — drifts and tilts in 3D
+// 🆕 Mini 3D phone with app-grid screen - drifts and tilts in 3D
 export function Mini3DPhone({ style, className = '' }) {
   return (
     <FloatingFrame style={style} className={`opacity-50 ${className}`} dur={8} tilt={12}>
@@ -156,7 +156,7 @@ export function Mini3DPhone({ style, className = '' }) {
   );
 }
 
-// 🆕 3D rotating cube with content on faces — sci-fi tech vibe
+// 🆕 3D rotating cube with content on faces - sci-fi tech vibe
 export function Floating3DCube({ style, size = 120, className = '' }) {
   const half = size / 2;
   const faces = [
@@ -198,7 +198,7 @@ export function Floating3DCube({ style, size = 120, className = '' }) {
   );
 }
 
-// 🆕 Tilted "app card stack" — represents project stack/architecture
+// 🆕 Tilted "app card stack" - represents project stack/architecture
 export function CardStack3D({ style, className = '' }) {
   return (
     <FloatingFrame style={style} className={`opacity-55 ${className}`} dur={9} tilt={6}>

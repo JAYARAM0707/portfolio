@@ -1,7 +1,7 @@
 import { forwardRef, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
-// React-Bits-inspired 3D tilt — rotates on cursor position with spring physics.
+// React-Bits-inspired 3D tilt - rotates on cursor position with spring physics.
 // Wraps any element; pass-through framer-motion props (initial, whileInView, etc).
 const TiltedCard = forwardRef(function TiltedCard(
   { children, className = '', maxTilt = 8, ...motionProps },

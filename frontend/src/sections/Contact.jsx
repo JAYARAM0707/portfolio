@@ -1,64 +1,44 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Mail,
-  MapPin,
-  Send,
-  CheckCircle2,
-  AlertCircle,
-  Loader2,
+  Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Loader2, ArrowUpRight,
+  User, Tag, MessageSquare,
 } from 'lucide-react';
-import { Github, Linkedin } from '../components/SocialIcons';
-import SectionBackground from '../components/SectionBackground';
-import { ChatbotBubble } from '../components/SectionMockup';
+import { Github, Linkedin, Instagram } from '../components/SocialIcons';
 import { profile } from '../data/profile';
 import { submitContactForm } from '../lib/api';
+import { EASE_OUT } from '../lib/anim';
 
-const contactMethods = [
-  {
-    Icon: Mail,
-    label: 'Email',
-    value: profile.email,
-    href: `mailto:${profile.email}`,
-    external: false,
-  },
-  {
-    Icon: Linkedin,
-    label: 'LinkedIn',
-    value: profile.social.linkedin.replace(/^https?:\/\//, ''),
-    href: profile.social.linkedin,
-    external: true,
-  },
-  {
-    Icon: Github,
-    label: 'GitHub',
-    value: profile.social.github.replace(/^https?:\/\//, ''),
-    href: profile.social.github,
-    external: true,
-  },
-  {
-    Icon: MapPin,
-    label: 'Location',
-    value: profile.location,
-    href: null,
-  },
+const fieldContainer = { hidden: {}, visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } } };
+const fieldItem = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT } },
+};
+
+// Heading slide-up reveal (observed on the parent so it fires reliably).
+const headWrap = { hidden: {}, visible: { transition: { staggerChildren: 0.12 } } };
+const wordUp = {
+  hidden: { y: '115%' },
+  visible: { y: '0%', transition: { duration: 0.8, ease: EASE_OUT } },
+};
+
+const socials = [
+  { name: 'GitHub', href: profile.social.github, Icon: Github },
+  { name: 'LinkedIn', href: profile.social.linkedin, Icon: Linkedin },
+  { name: 'Instagram', href: profile.social.instagram, Icon: Instagram },
 ];
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function validate(formData) {
-  const errors = {};
-  if (!formData.name.trim()) errors.name = 'Name is required';
-  else if (formData.name.trim().length < 2) errors.name = 'Name must be at least 2 characters';
-
-  if (!formData.email.trim()) errors.email = 'Email is required';
-  else if (!EMAIL_REGEX.test(formData.email.trim())) errors.email = 'Invalid email address';
-
-  if (!formData.message.trim()) errors.message = 'Message is required';
-  else if (formData.message.trim().length < 10)
-    errors.message = 'Message must be at least 10 characters';
-
-  return errors;
+function validate(f) {
+  const e = {};
+  if (!f.name.trim()) e.name = 'Name is required';
+  else if (f.name.trim().length < 2) e.name = 'Name must be at least 2 characters';
+  if (!f.email.trim()) e.email = 'Email is required';
+  else if (!EMAIL_REGEX.test(f.email.trim())) e.email = 'Invalid email address';
+  if (!f.message.trim()) e.message = 'Message is required';
+  else if (f.message.trim().length < 10) e.message = 'Message must be at least 10 characters';
+  return e;
 }
 
 function Contact() {
@@ -69,22 +49,16 @@ function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
+    setFormData((p) => ({ ...p, [name]: value }));
+    if (errors[name]) setErrors((p) => ({ ...p, [name]: undefined }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const v = validate(formData);
-    if (Object.keys(v).length > 0) {
-      setErrors(v);
-      return;
-    }
-
+    if (Object.keys(v).length) { setErrors(v); return; }
     setErrors({});
     setIsSubmitting(true);
-
     try {
       await submitContactForm({
         name: formData.name.trim(),
@@ -92,258 +66,186 @@ function Contact() {
         subject: formData.subject?.trim() || undefined,
         message: formData.message.trim(),
       });
-
       setIsSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setIsSuccess(false), 5000);
-    } catch (error) {
-      setErrors({ submit: error.message || 'Failed to send message. Please try again.' });
+    } catch (err) {
+      setErrors({ submit: err.message || 'Failed to send message. Please try again.' });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const inputBase =
-    'w-full bg-navy border rounded-lg px-4 py-3 text-slate-lightest placeholder-slate ' +
-    'font-sans text-sm sm:text-base transition-all duration-300 ' +
-    'focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20';
-  const inputCls = (field) =>
-    `${inputBase} ${errors[field] ? 'border-red-500/60' : 'border-slate-dark/40'}`;
-  const labelCls = 'block text-xs font-mono uppercase tracking-wider text-slate-light mb-2';
-  const errorCls = 'mt-1.5 text-xs text-red-400 flex items-center gap-1';
+  const box =
+    'w-full bg-navy/60 border border-slate-dark/40 rounded-xl pl-11 pr-4 py-3.5 text-slate-lightest ' +
+    'placeholder-slate/50 font-sans text-[0.95rem] transition-all duration-300 ' +
+    'focus:outline-none focus:border-accent focus:bg-navy focus:ring-4 focus:ring-accent/10';
+  const inputCls = (f) => `${box} ${errors[f] ? 'border-red-500/60' : ''}`;
+  const lbl = 'block text-[0.68rem] font-mono uppercase tracking-wider text-slate mb-2';
+  const iconCls = 'absolute left-4 bottom-[0.95rem] text-slate peer-focus:text-accent';
+  const errCls = 'mt-1.5 text-xs text-red-400 flex items-center gap-1';
 
   return (
-    <section
-      id="contact"
-      className="relative section-padding container-max min-h-screen lg:min-h-full lg:h-full flex flex-col justify-center py-20 lg:py-6"
-    >
-      <SectionBackground />
-      <ChatbotBubble style={{ top: '12%', right: '10%' }} className="hidden md:block" />
+    <section id="contact" className="relative overflow-hidden py-24 lg:py-28">
+      {/* giant ghost word */}
+      <span aria-hidden className="ghost-word left-1/2 -translate-x-1/2 bottom-4 text-[26vw] hidden lg:block">HELLO</span>
+      {/* ambient glow */}
+      <div aria-hidden className="absolute -top-20 left-1/4 w-[38rem] h-[38rem] rounded-full bg-accent/10 blur-[130px] pointer-events-none" />
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-6 lg:mb-8"
-      >
-        <p className="eyebrow mb-3">Get in Touch</p>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-lightest mb-3">
-          Let's build something <span className="text-accent">together</span>
-        </h2>
-        <p className="text-base md:text-lg text-slate-light max-w-2xl mx-auto">
-          Open to opportunities, collaborations, and good conversations.
-        </p>
-      </motion.div>
+      <div className="relative section-padding container-max">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-14 lg:gap-20 items-start">
 
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          {/* LEFT - statement + direct contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, ease: EASE_OUT }}
+          >
+            <p className="eyebrow mb-5"><span className="text-slate-dark mr-2">06</span> Get in Touch</p>
 
-        {/* LEFT — Contact methods */}
-        <motion.div
-          initial={{ opacity: 0, x: -40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="space-y-5">
-            {contactMethods.map(({ Icon, label, value, href, external }, i) => {
-              const inner = (
-                <>
-                  <div className="w-11 h-11 rounded-lg bg-accent/10 border border-accent/20
-                                  flex items-center justify-center text-accent shrink-0">
-                    <Icon size={20} />
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="text-xs font-mono uppercase tracking-wider text-slate">
-                      {label}
-                    </span>
-                    <span className="text-sm sm:text-base text-slate-lightest hover:text-accent transition-colors break-all">
-                      {value}
-                    </span>
-                  </div>
-                </>
-              );
+            {/* Single line, slide-up reveal per word (observed on the h2) */}
+            <motion.h2
+              variants={headWrap}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              className="font-display font-black uppercase tracking-tight leading-[0.9]
+                         text-5xl sm:text-6xl lg:text-7xl xl:text-8xl text-slate-lightest
+                         flex flex-wrap items-baseline gap-x-4"
+            >
+              <span className="inline-block overflow-hidden pb-[0.12em]">
+                <motion.span variants={wordUp} className="inline-block">Let's</motion.span>
+              </span>
+              <span className="inline-block overflow-hidden pb-[0.12em]">
+                <motion.span variants={wordUp} className="inline-block text-outline">talk.</motion.span>
+              </span>
+            </motion.h2>
 
-              const wrapperCls = 'flex items-center gap-4';
-              const animProps = {
-                initial: { opacity: 0, y: 10 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true },
-                transition: { duration: 0.4, delay: 0.2 + i * 0.08 },
-              };
+            <p className="mt-6 max-w-md text-base sm:text-lg text-slate-light leading-relaxed">
+              Have a project, a role, or an idea worth building? My inbox is always open -
+              I usually reply within <span className="text-slate-lightest">24 hours</span>.
+            </p>
 
-              if (href) {
-                return (
-                  <motion.a
-                    key={label}
-                    href={href}
-                    {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
-                    className={wrapperCls + ' group'}
-                    {...animProps}
-                  >
-                    {inner}
-                  </motion.a>
-                );
-              }
-              return (
-                <motion.div key={label} className={wrapperCls} {...animProps}>
-                  {inner}
+            {/* availability */}
+            <div className="mt-7 inline-flex items-center gap-2.5 rounded-full border border-accent/30 bg-accent/5 px-4 py-2">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
+              </span>
+              <span className="font-mono text-sm text-slate-light">Available for new opportunities</span>
+            </div>
+
+            {/* direct contact rows */}
+            <div className="mt-10 space-y-1 border-t border-slate-dark/30">
+              <a href={`mailto:${profile.email}`}
+                 className="group flex items-center justify-between gap-4 py-4 border-b border-slate-dark/30">
+                <span className="flex items-center gap-3 text-slate">
+                  <Mail size={16} className="text-accent" />
+                  <span className="font-mono text-[0.7rem] uppercase tracking-wider">Email</span>
+                </span>
+                <span className="flex items-center gap-2 text-slate-lightest group-hover:text-accent transition-colors">
+                  {profile.email}
+                  <ArrowUpRight size={15} className="opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </span>
+              </a>
+              <a href={`tel:${profile.phone.replace(/\s/g, '')}`}
+                 className="group flex items-center justify-between gap-4 py-4 border-b border-slate-dark/30">
+                <span className="flex items-center gap-3 text-slate">
+                  <Phone size={16} className="text-accent" />
+                  <span className="font-mono text-[0.7rem] uppercase tracking-wider">Phone</span>
+                </span>
+                <span className="text-slate-lightest group-hover:text-accent transition-colors">{profile.phone}</span>
+              </a>
+              <div className="flex items-center justify-between gap-4 py-4">
+                <span className="flex items-center gap-3 text-slate">
+                  <MapPin size={16} className="text-accent" />
+                  <span className="font-mono text-[0.7rem] uppercase tracking-wider">Location</span>
+                </span>
+                <span className="text-slate-lightest">{profile.location}</span>
+              </div>
+            </div>
+
+            {/* socials */}
+            <div className="mt-7 flex items-center gap-2">
+              {socials.map(({ name, href, Icon }) => (
+                <a key={name} href={href} target="_blank" rel="noreferrer" aria-label={name}
+                   className="w-11 h-11 rounded-xl border border-slate-dark/40 flex items-center justify-center
+                              text-slate-light hover:text-accent hover:border-accent hover:-translate-y-0.5 transition-all duration-300">
+                  <Icon size={18} />
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* RIGHT - form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.8, delay: 0.12, ease: EASE_OUT }}
+            className="rounded-3xl border border-slate-dark/40 bg-navy-light/50 backdrop-blur-sm p-7 sm:p-9 lg:mt-4"
+          >
+            <AnimatePresence mode="wait">
+              {isSuccess ? (
+                <motion.div key="ok" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4 }} className="text-center py-14">
+                  <CheckCircle2 size={46} className="text-accent mb-4 mx-auto" />
+                  <h3 className="font-display text-2xl text-slate-lightest mb-2">Message sent</h3>
+                  <p className="text-sm text-slate-light max-w-xs mx-auto">Thanks for reaching out - I'll get back to you within 24 hours.</p>
                 </motion.div>
-              );
-            })}
-          </div>
+              ) : (
+                <motion.form key="form" variants={fieldContainer} initial="hidden" animate="visible" exit={{ opacity: 0 }}
+                             onSubmit={handleSubmit} noValidate className="space-y-5">
+                  <motion.div variants={fieldItem}>
+                    <label htmlFor="name" className={lbl}>Your Name</label>
+                    <div className="relative">
+                      <input id="name" name="name" type="text" placeholder="Jayaram" value={formData.name} onChange={handleChange} className={`peer ${inputCls('name')}`} />
+                      <User size={16} className={iconCls} />
+                    </div>
+                    {errors.name && <p className={errCls}><AlertCircle size={12} />{errors.name}</p>}
+                  </motion.div>
+                  <motion.div variants={fieldItem}>
+                    <label htmlFor="email" className={lbl}>Email</label>
+                    <div className="relative">
+                      <input id="email" name="email" type="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} className={`peer ${inputCls('email')}`} />
+                      <Mail size={16} className={iconCls} />
+                    </div>
+                    {errors.email && <p className={errCls}><AlertCircle size={12} />{errors.email}</p>}
+                  </motion.div>
 
-          <div className="mt-8 pt-6 border-t border-slate-dark/30 flex items-center gap-3">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500" />
-            </span>
-            <span className="font-mono text-sm text-slate-light">
-              Currently available for new opportunities
-            </span>
-          </div>
-        </motion.div>
+                  <motion.div variants={fieldItem}>
+                    <label htmlFor="subject" className={lbl}>Subject (optional)</label>
+                    <div className="relative">
+                      <input id="subject" name="subject" type="text" placeholder="Let's collaborate on..." value={formData.subject} onChange={handleChange} className={`peer ${inputCls('subject')}`} />
+                      <Tag size={16} className={iconCls} />
+                    </div>
+                  </motion.div>
 
-        {/* RIGHT — Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="bg-navy-light border border-slate-dark/30 rounded-2xl p-6 sm:p-8"
-        >
-          <AnimatePresence mode="wait">
-            {isSuccess ? (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="text-center py-12"
-              >
-                <CheckCircle2 size={48} className="text-accent mb-4 mx-auto" />
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-lightest mb-2">
-                  Message sent! 🎉
-                </h3>
-                <p className="text-sm sm:text-base text-slate-light max-w-md mx-auto">
-                  Thanks for reaching out. I'll get back to you within 24 hours.
-                </p>
-              </motion.div>
-            ) : (
-              <motion.form
-                key="form"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                onSubmit={handleSubmit}
-                noValidate
-                className="space-y-4"
-              >
-                <div>
-                  <label htmlFor="name" className={labelCls}>Your Name</label>
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Jane Doe"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={inputCls('name')}
-                  />
-                  {errors.name && (
-                    <p className={errorCls}>
-                      <AlertCircle size={12} />
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
+                  <motion.div variants={fieldItem}>
+                    <label htmlFor="message" className={lbl}>Your Message</label>
+                    <div className="relative">
+                      <textarea id="message" name="message" rows={4} placeholder="Tell me about your project, role, or just say hi..." value={formData.message} onChange={handleChange} className={`peer ${inputCls('message')} resize-none`} />
+                      <MessageSquare size={16} className="absolute left-4 top-[0.95rem] text-slate peer-focus:text-accent" />
+                    </div>
+                    {errors.message && <p className={errCls}><AlertCircle size={12} />{errors.message}</p>}
+                  </motion.div>
 
-                <div>
-                  <label htmlFor="email" className={labelCls}>Email Address</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="you@example.com"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={inputCls('email')}
-                  />
-                  {errors.email && (
-                    <p className={errorCls}>
-                      <AlertCircle size={12} />
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
+                  {errors.submit && <p className="text-sm text-red-400 flex items-center gap-1.5"><AlertCircle size={14} />{errors.submit}</p>}
 
-                <div>
-                  <label htmlFor="subject" className={labelCls}>Subject (optional)</label>
-                  <input
-                    id="subject"
-                    name="subject"
-                    type="text"
-                    placeholder="Let's collaborate on..."
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={inputCls('subject')}
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className={labelCls}>Your Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    placeholder="Tell me about your project, role, or just say hi..."
-                    value={formData.message}
-                    onChange={handleChange}
-                    className={`${inputCls('message')} resize-none`}
-                  />
-                  {errors.message && (
-                    <p className={errorCls}>
-                      <AlertCircle size={12} />
-                      {errors.message}
-                    </p>
-                  )}
-                </div>
-
-                {errors.submit && (
-                  <p className="mt-2 text-sm text-red-400 flex items-center gap-1.5">
-                    <AlertCircle size={14} />
-                    {errors.submit}
-                  </p>
-                )}
-
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
-                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
-                  className="w-full sm:w-auto px-6 py-3 rounded-lg font-mono text-sm font-medium
-                             bg-accent text-navy hover:bg-accent-hover transition-colors duration-300
-                             flex items-center justify-center gap-2
-                             disabled:opacity-60 disabled:cursor-not-allowed mt-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send size={16} />
-                    </>
-                  )}
-                </motion.button>
-              </motion.form>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                  <motion.button variants={fieldItem} type="submit" disabled={isSubmitting}
+                    whileHover={{ scale: isSubmitting ? 1 : 1.02 }} whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                    className="group w-full px-6 py-4 rounded-xl font-mono text-sm font-semibold bg-accent text-white
+                               hover:bg-accent-hover hover:shadow-[0_0_30px_-4px_rgba(56,189,248,0.5)] transition-all duration-300
+                               flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                    {isSubmitting ? (<><Loader2 size={16} className="animate-spin" />Sending...</>)
+                      : (<>Send Message<Send size={16} className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" /></>)}
+                  </motion.button>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

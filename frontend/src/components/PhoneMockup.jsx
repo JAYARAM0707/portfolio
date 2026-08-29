@@ -10,7 +10,7 @@ const FLOATING_TECH = [
   { name: 'Tailwind CSS', slug: 'tailwindcss', color: '06B6D4', pos: 'bottom-1/4 -right-3 sm:-right-5' },
 ];
 
-// Generic "what I do" rows — no company/product names (safe to display).
+// Generic "what I do" rows - no company/product names (safe to display).
 const APP_WORK = [
   { title: 'Mobile Development', tag: 'React Native · iOS · Android', accent: 'bg-accent' },
   { title: 'AI Integration',     tag: 'GPT-4 · Smart features',       accent: 'bg-accent/70' },
@@ -21,7 +21,7 @@ const APP_WORK = [
 // Tech chips for the phone's "stack" strip.
 const APP_STACK = ['React Native', 'JavaScript', 'Python', 'Tailwind', 'SQL'];
 
-function PhoneMockup() {
+function PhoneMockup({ calm = false }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -30,14 +30,14 @@ function PhoneMockup() {
       style={{ perspective: 1200 }}
       className="relative w-44 h-[23rem] sm:w-52 sm:h-[27rem] md:w-56 md:h-[28rem] lg:w-60 lg:h-[28rem] mx-auto my-2"
     >
-      {/* Soft accent glow behind the phone */}
+      {/* Soft accent glow behind the phone (steady when calm) */}
       <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-4 rounded-[3rem] bg-accent/25 blur-3xl pointer-events-none"
+        animate={calm ? { opacity: 0.35 } : { scale: [1, 1.1, 1], opacity: [0.4, 0.7, 0.4] }}
+        transition={calm ? { duration: 0.6 } : { duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute inset-4 rounded-[3rem] bg-accent/20 blur-3xl pointer-events-none"
       />
 
-      {/* Phone — continuous gentle 3D rotation */}
+      {/* Phone - continuous gentle 3D rotation */}
       <motion.div
         animate={{ rotateY: [-15, 15, -15], y: [0, -10, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
@@ -52,8 +52,8 @@ function PhoneMockup() {
           <div className="w-1.5 h-1.5 rounded-full bg-accent" />
         </div>
 
-        {/* SCREEN — theme-inverted: shows the OPPOSITE of the page theme.
-            This is a generic mini "portfolio app" — no company/product data. */}
+        {/* SCREEN - theme-inverted: shows the OPPOSITE of the page theme.
+            This is a generic mini "portfolio app" - no company/product data. */}
         <div className="theme-inverted absolute inset-2.5 sm:inset-3 rounded-[1.7rem] sm:rounded-[2rem] bg-navy overflow-hidden flex flex-col">
           {/* Status bar */}
           <div className="flex items-center justify-between px-4 pt-1.5 pb-1 text-[0.5rem] sm:text-[0.55rem] font-mono text-slate-light">
@@ -64,7 +64,7 @@ function PhoneMockup() {
             </span>
           </div>
 
-          {/* Header — avatar + name + role */}
+          {/* Header - avatar + name + role */}
           <div className="px-3 sm:px-4 pt-2 pb-2 flex items-center gap-2 border-b border-slate-dark/30">
             <img
               src={profile.avatar}
@@ -162,8 +162,8 @@ function PhoneMockup() {
         <div className="absolute -right-0.5 top-32 w-1 h-16 bg-slate-dark/60 rounded-r" />
       </motion.div>
 
-      {/* Tiny twinkling sparkles around the phone */}
-      {[
+      {/* Tiny twinkling sparkles around the phone - hidden in calm mode */}
+      {!calm && [
         { top: '5%',  left: '-12%', d: 1.6 },
         { top: '20%', left: '108%', d: 1.8 },
         { top: '55%', left: '-15%', d: 2.0 },
@@ -182,8 +182,8 @@ function PhoneMockup() {
         />
       ))}
 
-      {/* Floating tech logo badges around the phone */}
-      {FLOATING_TECH.map((tech, i) => (
+      {/* Floating tech logo badges around the phone - fewer in calm mode */}
+      {(calm ? FLOATING_TECH.slice(0, 2) : FLOATING_TECH).map((tech, i) => (
         <motion.div
           key={tech.slug}
           initial={{ opacity: 0, scale: 0 }}

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 // React-Bits-inspired cursor spotlight. A soft accent-colored radial gradient
 // follows the mouse inside the card, fading in on enter / out on leave.
-// Drop-in replacement for a motion.div — accepts the same props + className.
+// Drop-in replacement for a motion.div - accepts the same props + className.
 const SpotlightCard = forwardRef(function SpotlightCard(
   { children, className = '', spotlightSize = 260, ...motionProps },
   ref

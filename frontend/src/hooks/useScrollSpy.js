@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 // Returns the id of whichever section is currently most-visible.
 // rootMargin trims the top ~30% so the active state flips slightly *before*
-// a section reaches the top of the viewport — feels more natural.
+// a section reaches the top of the viewport - feels more natural.
 export function useScrollSpy(ids) {
   const [activeId, setActiveId] = useState(ids[0]);
   const idsKey = ids.join('|');

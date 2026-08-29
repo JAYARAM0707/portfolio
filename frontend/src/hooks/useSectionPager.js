@@ -44,7 +44,7 @@ export function useSectionPager(enabled = true) {
       const curBottom = curTop + cur.offsetHeight;
 
       if (dir > 0) {
-        // Scrolling down — only page when we're at the bottom of the current section
+        // Scrolling down - only page when we're at the bottom of the current section
         const atBottom = y + window.innerHeight >= curBottom - EDGE;
         if (!atBottom) return false;
         const next = sections[idx + 1];
@@ -53,7 +53,7 @@ export function useSectionPager(enabled = true) {
         next.scrollIntoView({ behavior: 'smooth' });
         return true;
       } else {
-        // Scrolling up — only page when we're at the top of the current section
+        // Scrolling up - only page when we're at the top of the current section
         const atTop = y <= curTop + EDGE;
         if (!atTop) return false;
         const prev = sections[idx - 1];

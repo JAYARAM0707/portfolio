@@ -3,10 +3,10 @@ import SectionBackground from '../components/SectionBackground';
 import { Reveal } from '../components/Reveal';
 import { EASE } from '../lib/anim';
 
-// Add / edit roles here — keep bullets short so the section stays one screen.
+// Add / edit roles here - keep bullets short so the section stays one screen.
 const EXPERIENCE = [
   {
-    role: 'Software Engineer — React Native',
+    role: 'Software Engineer - React Native',
     company: 'Revolution Labs Pvt. Ltd.',
     type: 'Full-time',
     date: 'Mar 2025 – Present',
@@ -83,12 +83,12 @@ function Experience() {
     >
       <SectionBackground variant="diagonal" />
 
-      <Reveal className="mb-5 lg:mb-7">
+      <Reveal className="mb-10 md:mb-12">
         <p className="eyebrow">Experience</p>
       </Reveal>
 
       <div className="relative max-w-4xl mx-auto w-full">
-        {/* Timeline line — left on mobile, centered on desktop. Draws in on view. */}
+        {/* Timeline line - left on mobile, centered on desktop. Draws in on view. */}
         <motion.div
           initial={{ scaleY: 0 }}
           whileInView={{ scaleY: 1 }}
@@ -111,7 +111,7 @@ function Experience() {
                   <span className="relative h-3.5 w-3.5 rounded-full border-2 border-accent bg-navy" />
                 </span>
 
-                {/* Card — mobile: right of left line; desktop: alternating sides */}
+                {/* Card - mobile: right of left line; desktop: alternating sides */}
                 <div
                   className={`pl-10 lg:pl-0 lg:w-1/2 ${
                     leftSide

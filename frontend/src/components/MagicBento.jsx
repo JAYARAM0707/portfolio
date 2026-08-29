@@ -2,7 +2,7 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import './MagicBento.css';
 
-// React-Bits MagicBento — adapted for cyan theme + custom card data + lucide icons.
+// React-Bits MagicBento - adapted for cyan theme + custom card data + lucide icons.
 
 const DEFAULT_PARTICLE_COUNT = 12;
 const DEFAULT_SPOTLIGHT_RADIUS = 300;

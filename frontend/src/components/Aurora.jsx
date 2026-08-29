@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 
-// React-Bits-inspired Aurora — slow-rotating conic gradients with heavy blur.
+// React-Bits-inspired Aurora - slow-rotating conic gradients with heavy blur.
 // Pure CSS + framer-motion (no WebGL). Follows the theme via `var(--accent)`.
 function Aurora({ className = '' }) {
   return (

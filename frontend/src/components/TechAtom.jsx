@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { profile } from '../data/profile';
 
 // Atom-style 2-orbit composition. Avatar is the nucleus.
-// Languages I actually work with — React.js + React Native share the React logo.
+// Languages I actually work with - React.js + React Native share the React logo.
 const ORBIT_OUTER = [
   { name: 'React',      slug: 'react',      color: '61DAFB' },  // React.js + React Native
   { name: 'JavaScript', slug: 'javascript', color: 'F7DF1E' },
@@ -32,13 +32,13 @@ function TechAtom() {
       {/* Outer orbit guide ring */}
       <div className="absolute inset-0 rounded-full border border-dashed border-accent/20 pointer-events-none" />
 
-      {/* Inner orbit guide ring — tilted */}
+      {/* Inner orbit guide ring - tilted */}
       <div
         className="absolute inset-10 sm:inset-12 md:inset-14 rounded-full border border-dashed border-accent/15 pointer-events-none"
         style={{ transform: 'rotate(35deg)' }}
       />
 
-      {/* OUTER ORBIT — clockwise */}
+      {/* OUTER ORBIT - clockwise */}
       {ORBIT_OUTER.map((tech, i) => {
         const startAngle = (360 / ORBIT_OUTER.length) * i;
         return (
@@ -73,7 +73,7 @@ function TechAtom() {
         );
       })}
 
-      {/* INNER ORBIT — tilted plane, counter-clockwise */}
+      {/* INNER ORBIT - tilted plane, counter-clockwise */}
       <div
         className="absolute inset-10 sm:inset-12 md:inset-14"
         style={{ transform: 'rotate(35deg)' }}
@@ -113,7 +113,7 @@ function TechAtom() {
         })}
       </div>
 
-      {/* Avatar — nucleus */}
+      {/* Avatar - nucleus */}
       <motion.div
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}

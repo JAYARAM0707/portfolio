@@ -68,7 +68,7 @@ export default function CinematicIntro({ onComplete }) {
               {profile.name}
             </motion.h1>
 
-            {/* Start button — outline that fills left→right on hover */}
+            {/* Start button - outline that fills left→right on hover */}
             <motion.button
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -93,7 +93,7 @@ export default function CinematicIntro({ onComplete }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// FloatingParticles — ambient particles. Pure CSS + framer-motion.
+// FloatingParticles - ambient particles. Pure CSS + framer-motion.
 // ─────────────────────────────────────────────────────────────
 function FloatingParticles() {
   const [particles] = useState(() =>

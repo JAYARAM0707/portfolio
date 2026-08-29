@@ -1,4 +1,4 @@
-// Intro visibility helper — kept separate from the component file so the
+// Intro visibility helper - kept separate from the component file so the
 // component module only exports React components (fast-refresh requirement).
 
 export const INTRO_STORAGE_KEY = "marni-intro-watched";
